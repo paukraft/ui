@@ -5,9 +5,8 @@ import { LaptopMinimal, Moon, Sun } from 'lucide-react'
 import { useTheme } from 'next-themes'
 
 export function ModeToggle() {
-  const { setTheme, theme } = useTheme()
-
-  if (!theme) return null
+  const { setTheme, theme: actualTheme } = useTheme()
+  const theme = actualTheme ?? 'system'
 
   return (
     <div className="flex rounded-full border border-border text-muted-foreground">
