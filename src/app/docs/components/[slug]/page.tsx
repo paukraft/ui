@@ -9,10 +9,11 @@ import path from 'path'
 export async function generateMetadata({
   params,
 }: {
-  params: { slug: string }
+  params: Promise<{ slug: string }>
 }) {
+  const { slug } = await params
   const component = weirdComponents.find(
-    (c) => c.name.toLowerCase().replace(/\s+/g, '-') === params.slug
+    (c) => c.name.toLowerCase().replace(/\s+/g, '-') === slug
   )
   return {
     title: `${component?.name}`,

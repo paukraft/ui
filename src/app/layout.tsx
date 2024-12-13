@@ -19,7 +19,8 @@ export const metadata: Metadata = {
     default: 'paukraft/ui',
     template: '%s - paukraft/ui',
   },
-  description: 'A collection of weird UI components',
+  description:
+    'A collection of unique and playful UI components built with React and Tailwind CSS. Fully compatible with shadcn/ui and ready to use in your next project.',
 }
 
 export default function RootLayout({
