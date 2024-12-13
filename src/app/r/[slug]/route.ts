@@ -21,10 +21,13 @@ export async function GET(
       )
     }
 
+    // Determine the environment
+    const isProd = process.env.NODE_ENV === 'production'
+    const basePath = isProd ? 'public' : 'src/components'
+
     const componentPath = path.join(
       process.cwd(),
-      'src',
-      'components',
+      basePath,
       'weirdui',
       component.path,
       'component.tsx'
@@ -48,6 +51,7 @@ export async function GET(
 
     return NextResponse.json(registryData)
   } catch (error) {
+    console.error('Error fetching component:', error)
     return NextResponse.json({ error: 'Component not found' }, { status: 404 })
   }
 }

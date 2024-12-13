@@ -23,13 +23,16 @@ export default async function ComponentPage({
 
   const hasCustomProps = Object.keys(component.customProps).length > 0
 
+  // Determine the environment
+  const isProd = process.env.NODE_ENV === 'production'
+  const basePath = isProd ? 'public' : 'src/components'
+
   // Read demo file content if path exists
   let demoCode = ''
   if (component.path) {
     const demoPath = path.join(
       process.cwd(),
-      'src',
-      'components',
+      basePath,
       'weirdui',
       component.path,
       'demo.tsx'
@@ -46,8 +49,7 @@ export default async function ComponentPage({
   if (component.path) {
     const componentPath = path.join(
       process.cwd(),
-      'src',
-      'components',
+      basePath,
       'weirdui',
       component.path,
       'component.tsx'
