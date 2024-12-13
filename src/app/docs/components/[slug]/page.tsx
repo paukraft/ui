@@ -32,7 +32,7 @@ export default async function ComponentPage({
       'components',
       'weirdui',
       component.path,
-      'demo.tsx'
+      'demo.jsx'
     )
     try {
       demoCode = fs.readFileSync(demoPath, 'utf-8')
