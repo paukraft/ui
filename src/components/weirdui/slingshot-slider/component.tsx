@@ -2,8 +2,8 @@
 
 import { cn } from '@/lib/utils'
 import * as SliderPrimitive from '@radix-ui/react-slider'
-import { motion } from 'framer-motion'
 import { LucideIcon, Volume2 } from 'lucide-react'
+import { motion } from 'motion/react'
 import React, { useEffect, useRef, useState } from 'react'
 
 interface SlingshotSliderProps

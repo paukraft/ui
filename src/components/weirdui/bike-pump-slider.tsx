@@ -2,7 +2,7 @@
 
 import { cn } from '@/lib/utils'
 import * as SliderPrimitive from '@radix-ui/react-slider'
-import { motion, useMotionValue, useTransform } from 'framer-motion'
+import { motion, useMotionValue, useTransform } from 'motion/react'
 import React, { useEffect, useState } from 'react'
 
 interface BikePumpSliderProps
@@ -31,7 +31,6 @@ const BikePumpSlider = React.forwardRef<HTMLInputElement, BikePumpSliderProps>(
   ) => {
     const [internalValue, setInternalValue] = useState(defaultValue || [0])
     const controlledValue = value !== undefined ? value : internalValue
-    const [isHandleActive, setIsHandleActive] = useState(false)
 
     const handleY = useMotionValue(0)
     const pressureValue = useMotionValue(controlledValue[0])
@@ -53,18 +52,6 @@ const BikePumpSlider = React.forwardRef<HTMLInputElement, BikePumpSliderProps>(
 
       return () => clearInterval(leakInterval)
     }, [controlledValue, min, onValueChange, value, leakSpeed, pressureValue])
-
-    useEffect(() => {
-      const handleGlobalMouseUp = () => {
-        setIsHandleActive(false)
-      }
-
-      window.addEventListener('mouseup', handleGlobalMouseUp)
-
-      return () => {
-        window.removeEventListener('mouseup', handleGlobalMouseUp)
-      }
-    }, [])
 
     const handleDrag = (event: any, info: any) => {
       if (disabled) return
@@ -103,7 +90,6 @@ const BikePumpSlider = React.forwardRef<HTMLInputElement, BikePumpSliderProps>(
               dragConstraints={{ top: 0, bottom: 50 }}
               dragElastic={0}
               onDrag={handleDrag}
-              onMouseDown={() => setIsHandleActive(true)}
               style={{ y: handleY }}
               className="absolute top-0 flex flex-col items-center cursor-grab active:cursor-grabbing"
             >

@@ -9,7 +9,7 @@ import path from 'path'
 export default async function ComponentPage({
   params,
 }: {
-  params: { slug: string }
+  params: Promise<{ slug: string }>
 }) {
   const { slug } = await params
 

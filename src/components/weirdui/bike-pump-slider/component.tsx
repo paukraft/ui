@@ -2,7 +2,7 @@
 
 import { cn } from '@/lib/utils'
 import * as SliderPrimitive from '@radix-ui/react-slider'
-import { motion, useMotionValue, useTransform } from 'framer-motion'
+import { motion, useMotionValue, useTransform } from 'motion/react'
 import React, { useEffect, useState } from 'react'
 
 interface BikePumpSliderProps

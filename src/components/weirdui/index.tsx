@@ -28,7 +28,7 @@ export const weirdComponents = [
       },
     },
     path: 'bike-pump-slider',
-    dependencies: ['framer-motion', '@radix-ui/react-slider'],
+    dependencies: ['motion', '@radix-ui/react-slider'],
   },
   {
     name: 'Canvas Slider',
@@ -79,7 +79,7 @@ export const weirdComponents = [
       },
     },
     path: 'slingshot-slider',
-    dependencies: ['framer-motion', '@radix-ui/react-slider', 'lucide-react'],
+    dependencies: ['motion', '@radix-ui/react-slider', 'lucide-react'],
   },
   {
     name: 'Tall Slider',

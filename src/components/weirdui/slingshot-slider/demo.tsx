@@ -26,7 +26,7 @@ export default function SlingshotSliderGame() {
     timeLeft: GAME_TIME,
   })
   const [showCelebration, setShowCelebration] = useState(false)
-  const celebrationTimeoutRef = useRef<NodeJS.Timeout>()
+  const celebrationTimeoutRef = useRef<NodeJS.Timeout>(null)
   const lastHitValueRef = useRef<number>(0)
 
   // Timer effect
@@ -60,7 +60,7 @@ export default function SlingshotSliderGame() {
     // Clear any existing celebration timeout
     if (celebrationTimeoutRef.current) {
       clearTimeout(celebrationTimeoutRef.current)
-      celebrationTimeoutRef.current = undefined
+      celebrationTimeoutRef.current = null
     }
 
     if (!isTargetHit) {
