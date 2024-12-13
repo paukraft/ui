@@ -6,6 +6,19 @@ import fs from 'fs'
 import { notFound } from 'next/navigation'
 import path from 'path'
 
+export async function generateMetadata({
+  params,
+}: {
+  params: { slug: string }
+}) {
+  const component = weirdComponents.find(
+    (c) => c.name.toLowerCase().replace(/\s+/g, '-') === params.slug
+  )
+  return {
+    title: `${component?.name}`,
+  }
+}
+
 export default async function ComponentPage({
   params,
 }: {

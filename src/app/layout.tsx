@@ -15,7 +15,10 @@ const urbanist = Urbanist({
 })
 
 export const metadata: Metadata = {
-  title: 'paukraft/ui',
+  title: {
+    default: 'paukraft/ui',
+    template: '%s - paukraft/ui',
+  },
   description: 'A collection of weird UI components',
 }
 
