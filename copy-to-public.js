@@ -19,8 +19,8 @@ function copyComponentFiles(src, dest) {
     if (entry.isDirectory()) {
       // Recursively copy files from subdirectories
       copyComponentFiles(srcPath, destPath);
-    } else if (entry.isFile() && entry.name === 'component.tsx') {
-      // Copy only files named 'component.tsx'
+    } else if (entry.isFile() && ['component.tsx', 'demo.tsx'].includes(entry.name)) {
+      // Copy component.tsx and demo.tsx files
       fs.copyFileSync(srcPath, destPath);
     }
   });
