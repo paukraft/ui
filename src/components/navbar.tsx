@@ -5,6 +5,7 @@ import { cn } from '@/lib/utils'
 import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import GithubButton from './github-button'
 
 const Navbar = () => {
   const pathname = usePathname()
@@ -19,6 +20,7 @@ const Navbar = () => {
         </Link>
         <div className="flex-1 flex items-center justify-end gap-4">
           <div className="hidden md:flex items-center gap-4">
+            <GithubButton />
             <Link
               href={`/docs/components/${firstComponent}`}
               className={cn(
