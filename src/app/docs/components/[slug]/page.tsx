@@ -2,8 +2,8 @@ import { CopyDropdown } from '@/components/copy-dropdown'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { weirdComponents } from '@/components/weirdui'
 import { CustomPropsDemo } from '@/components/weirdui/custom-props-demo'
+import fs from 'fs'
 import { notFound } from 'next/navigation'
-import { createRequire } from 'node:module'
 import path from 'path'
 
 export default async function ComponentPage({
@@ -35,8 +35,7 @@ export default async function ComponentPage({
       'demo.tsx'
     )
     try {
-      const require = createRequire(import.meta.url)
-      demoCode = require('fs').readFileSync(demoPath, 'utf-8')
+      demoCode = fs.readFileSync(demoPath, 'utf-8')
     } catch (error) {
       console.error(`Failed to read demo file for ${component.name}:`, error)
     }
@@ -51,11 +50,10 @@ export default async function ComponentPage({
       'components',
       'weirdui',
       component.path,
-      `component.tsx`
+      'component.tsx'
     )
     try {
-      const require = createRequire(import.meta.url)
-      componentCode = require('fs').readFileSync(componentPath, 'utf-8')
+      componentCode = fs.readFileSync(componentPath, 'utf-8')
     } catch (error) {
       console.error(
         `Failed to read component file for ${component.name}:`,

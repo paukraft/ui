@@ -1,6 +1,6 @@
 import { weirdComponents } from '@/components/weirdui'
+import fs from 'fs'
 import { NextResponse } from 'next/server'
-import { createRequire } from 'node:module'
 import path from 'path'
 
 export async function GET(
@@ -21,7 +21,6 @@ export async function GET(
       )
     }
 
-    // Read the component file using dynamic require
     const componentPath = path.join(
       process.cwd(),
       'src',
@@ -31,8 +30,7 @@ export async function GET(
       'component.tsx'
     )
 
-    const require = createRequire(import.meta.url)
-    const content = require('fs').readFileSync(componentPath, 'utf-8')
+    const content = fs.readFileSync(componentPath, 'utf-8')
 
     const registryData = {
       name: slug,
