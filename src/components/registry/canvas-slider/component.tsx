@@ -39,7 +39,6 @@ const CanvasSlider = React.forwardRef<HTMLInputElement, CanvasSliderProps>(
       const rootStyles = getComputedStyle(document.documentElement)
       return rootStyles.getPropertyValue('--primary').trim()
     }
-
     const adjustFillToControlledValue = React.useCallback(() => {
       const canvas = canvasRef.current
       if (!canvas) return
@@ -52,42 +51,97 @@ const CanvasSlider = React.forwardRef<HTMLInputElement, CanvasSliderProps>(
       const canvasArea = canvas.width * canvas.height
       const pointPercentage = (POINT_AREA / canvasArea) * 100
 
+      // Calculate minimum points needed
+      const pointDifference = Math.abs(
+        targetFillPercentage - currentFillPercentage
+      )
+      const minPointsNeeded = Math.floor(pointDifference / pointPercentage)
+
+      // Batch process points in chunks for better performance
+      const BATCH_SIZE = 10
+      const addPoints = (count: number) => {
+        const points: [number, number][] = []
+        for (let i = 0; i < count; i++) {
+          points.push([
+            Math.random() * canvas.width,
+            Math.random() * canvas.height,
+          ])
+        }
+
+        // Process points in batches
+        for (let i = 0; i < points.length; i += BATCH_SIZE) {
+          const batch = points.slice(i, i + BATCH_SIZE)
+          ctx.beginPath()
+          batch.forEach(([x, y]) => {
+            ctx.moveTo(x + pointSize, y)
+            ctx.arc(x, y, pointSize, 0, Math.PI * 2)
+          })
+          ctx.fill()
+        }
+      }
+
+      const clearPoints = (count: number) => {
+        const points: [number, number][] = []
+        for (let i = 0; i < count; i++) {
+          points.push([
+            Math.random() * canvas.width,
+            Math.random() * canvas.height,
+          ])
+        }
+
+        // Process points in batches
+        for (let i = 0; i < points.length; i += BATCH_SIZE) {
+          const batch = points.slice(i, i + BATCH_SIZE)
+          ctx.beginPath()
+          batch.forEach(([x, y]) => {
+            ctx.moveTo(x + pointSize, y)
+            ctx.arc(x, y, pointSize, 0, Math.PI * 2)
+          })
+          ctx.fill()
+        }
+      }
+
       if (currentFillPercentage + pointPercentage < targetFillPercentage) {
         // Add points if we're under the controlled value
-        while (
-          calculateFillPercentage() + pointPercentage <
-          targetFillPercentage
-        ) {
-          const x = Math.random() * canvas.width
-          const y = Math.random() * canvas.height
+        ctx.fillStyle = `hsl(${getPrimaryColor()})`
 
-          ctx.fillStyle = `hsl(${getPrimaryColor()})`
-          ctx.beginPath()
-          ctx.arc(x, y, pointSize, 0, Math.PI * 2)
-          ctx.fill()
+        // Add all min needed points
+        addPoints(minPointsNeeded)
+
+        // Fine tune
+        while (true) {
+          const currentFill = calculateFillPercentage()
+          if (currentFill + pointPercentage >= targetFillPercentage) break
+
+          const remainingPercentage = targetFillPercentage - currentFill
+          const pointsNeeded = Math.floor(remainingPercentage / pointPercentage)
+          if (pointsNeeded === 0) break
+
+          addPoints(pointsNeeded)
         }
       } else if (
         currentFillPercentage - pointPercentage >
         targetFillPercentage
       ) {
         // Remove points if we're over the controlled value
-        while (
-          calculateFillPercentage() - pointPercentage >
-          targetFillPercentage
-        ) {
-          const x = Math.random() * canvas.width
-          const y = Math.random() * canvas.height
+        const prevOperation = ctx.globalCompositeOperation
+        ctx.globalCompositeOperation = 'destination-out'
 
-          // Save the current composite operation
-          const prevOperation = ctx.globalCompositeOperation
-          // Set composite operation to destination-out to create transparent circle
-          ctx.globalCompositeOperation = 'destination-out'
-          ctx.beginPath()
-          ctx.arc(x, y, pointSize, 0, Math.PI * 2)
-          ctx.fill()
-          // Restore the previous composite operation
-          ctx.globalCompositeOperation = prevOperation
+        // Remove all min needed points
+        clearPoints(minPointsNeeded)
+        // Fine tune
+        while (true) {
+          const currentFill = calculateFillPercentage()
+          if (currentFill - pointPercentage <= targetFillPercentage) break
+
+          const remainingPercentage = currentFill - targetFillPercentage
+          const pointsNeeded = Math.floor(remainingPercentage / pointPercentage)
+          if (pointsNeeded === 0) break
+
+          clearPoints(pointsNeeded)
         }
+
+        ctx.globalCompositeOperation = prevOperation
       }
     }, [controlledValue, POINT_AREA, pointSize])
 
@@ -112,25 +166,73 @@ const CanvasSlider = React.forwardRef<HTMLInputElement, CanvasSliderProps>(
       }
     }, [controlledValue, isInitialized, adjustFillToControlledValue])
 
-    const handleMouseDown = (event: React.MouseEvent<HTMLCanvasElement>) => {
+    // Add resize observer to handle canvas resizing
+    useEffect(() => {
+      const canvas = canvasRef.current
+      if (!canvas) return
+
+      const resizeObserver = new ResizeObserver(() => {
+        const ctx = canvas.getContext('2d')
+        if (!ctx) return
+
+        // Create a temporary canvas to store the current state
+        const tempCanvas = document.createElement('canvas')
+        const tempCtx = tempCanvas.getContext('2d')
+        if (!tempCtx) return
+
+        // Copy current canvas to temp
+        tempCanvas.width = canvas.width
+        tempCanvas.height = canvas.height
+        tempCtx.drawImage(canvas, 0, 0)
+
+        // Update main canvas dimensions
+        canvas.width = canvas.offsetWidth
+        canvas.height = canvas.offsetHeight
+
+        // Draw back the content stretched to new dimensions
+        ctx.drawImage(
+          tempCanvas,
+          0,
+          0,
+          tempCanvas.width,
+          tempCanvas.height,
+          0,
+          0,
+          canvas.width,
+          canvas.height
+        )
+      })
+
+      resizeObserver.observe(canvas)
+
+      return () => {
+        resizeObserver.disconnect()
+      }
+    }, [])
+
+    const handlePointerDown = (
+      event: React.PointerEvent<HTMLCanvasElement>
+    ) => {
       if (disabled) return
       setIsDrawing(true)
       draw(event)
     }
 
-    const handleMouseMove = (event: React.MouseEvent<HTMLCanvasElement>) => {
+    const handlePointerMove = (
+      event: React.PointerEvent<HTMLCanvasElement>
+    ) => {
       if (disabled) return
       if (isDrawing) {
         draw(event)
       }
     }
 
-    const handleMouseUp = () => {
+    const handlePointerUp = () => {
       if (disabled) return
       setIsDrawing(false)
     }
 
-    const draw = (event: React.MouseEvent<HTMLCanvasElement>) => {
+    const draw = (event: React.PointerEvent<HTMLCanvasElement>) => {
       const canvas = canvasRef.current
       if (!canvas) return
 
@@ -201,11 +303,13 @@ const CanvasSlider = React.forwardRef<HTMLInputElement, CanvasSliderProps>(
           <div className="relative h-6 w-full grow overflow-hidden border-[1px] bg-secondary">
             <canvas
               ref={canvasRef}
-              className="absolute inset-0 h-full w-full"
-              onMouseDown={handleMouseDown}
-              onMouseMove={handleMouseMove}
-              onMouseUp={handleMouseUp}
-              onMouseLeave={handleMouseUp}
+              className="absolute inset-0 h-full w-full touch-none"
+              onPointerDown={handlePointerDown}
+              onPointerMove={handlePointerMove}
+              onPointerUp={handlePointerUp}
+              onPointerLeave={handlePointerUp}
+              onPointerCancel={handlePointerUp}
+              style={{ touchAction: 'none' }}
             />
           </div>
         </div>
