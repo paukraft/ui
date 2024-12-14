@@ -6,7 +6,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { registryCollections, registryComponents } from './registry'
 
-export const DocsNav = () => {
+export const DocsNav = ({ closeNav }: { closeNav?: () => void }) => {
   const pathname = usePathname()
 
   const componentsByCollection = Object.entries(registryCollections).map(
@@ -35,6 +35,7 @@ export const DocsNav = () => {
                     'block py-1 px-2 rounded-md hover:bg-secondary transition-colors',
                     pathname === `/docs/components/${slug}` && 'bg-secondary'
                   )}
+                  onClick={closeNav}
                 >
                   {component.name}
                 </Link>

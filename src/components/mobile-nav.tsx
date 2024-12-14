@@ -1,7 +1,10 @@
+'use client'
+
 import Favicon from '@/app/favicon.ico'
 import { Menu } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useState } from 'react'
 import { DocsNav } from './docs-nav'
 import {
   Sheet,
@@ -12,8 +15,10 @@ import {
 } from './ui/sheet'
 
 export function MobileNav() {
+  const [open, setOpen] = useState(false)
+
   return (
-    <Sheet>
+    <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild className="md:hidden">
         <button className="p-2 hover:bg-accent rounded-md">
           <Menu className="h-5 w-5" />
@@ -33,7 +38,7 @@ export function MobileNav() {
           </SheetTitle>
         </SheetHeader>
         <div className="flex flex-col gap-4 pr-6 pt-6">
-          <DocsNav />
+          <DocsNav closeNav={() => setOpen(false)} />
         </div>
       </SheetContent>
     </Sheet>
