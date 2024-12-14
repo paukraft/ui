@@ -81,7 +81,7 @@ export default async function ComponentPage({
   const hasDemo = !!component.demo
 
   return (
-    <section className="w-full p-6 flex flex-col gap-12">
+    <section className="w-full p-6 flex flex-col gap-6 md:gap-12">
       <div className="flex flex-col gap-4">
         <h1 className="text-4xl md:text-6xl font-black">{component.name}</h1>
         <p className="text-lg md:text-xl text-muted-foreground">

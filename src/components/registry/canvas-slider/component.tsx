@@ -52,10 +52,6 @@ const CanvasSlider = React.forwardRef<HTMLInputElement, CanvasSliderProps>(
       const canvasArea = canvas.width * canvas.height
       const pointPercentage = (POINT_AREA / canvasArea) * 100
 
-      console.log('currentFillPercentage', currentFillPercentage)
-      console.log('targetFillPercentage', targetFillPercentage)
-      console.log('pointPercentage', pointPercentage)
-
       if (currentFillPercentage + pointPercentage < targetFillPercentage) {
         // Add points if we're under the controlled value
         while (
