@@ -52,15 +52,15 @@ const CanvasSlider = React.forwardRef<HTMLInputElement, CanvasSliderProps>(
       const canvasArea = canvas.width * canvas.height
       const pointPercentage = (POINT_AREA / canvasArea) * 100
 
-      if (currentFillPercentage < targetFillPercentage) {
+      console.log('currentFillPercentage', currentFillPercentage)
+      console.log('targetFillPercentage', targetFillPercentage)
+      console.log('pointPercentage', pointPercentage)
+
+      if (currentFillPercentage + pointPercentage < targetFillPercentage) {
         // Add points if we're under the controlled value
-        const pointsToAdd = Math.ceil(
-          (targetFillPercentage - currentFillPercentage) / pointPercentage
-        )
-        let addedPoints = 0
         while (
-          calculateFillPercentage() < targetFillPercentage &&
-          addedPoints < pointsToAdd * 2
+          calculateFillPercentage() + pointPercentage <
+          targetFillPercentage
         ) {
           const x = Math.random() * canvas.width
           const y = Math.random() * canvas.height
@@ -69,30 +69,28 @@ const CanvasSlider = React.forwardRef<HTMLInputElement, CanvasSliderProps>(
           ctx.beginPath()
           ctx.arc(x, y, pointSize, 0, Math.PI * 2)
           ctx.fill()
-
-          addedPoints++
         }
-      } else if (currentFillPercentage > targetFillPercentage) {
+      } else if (
+        currentFillPercentage - pointPercentage >
+        targetFillPercentage
+      ) {
         // Remove points if we're over the controlled value
-        const pointsToRemove = Math.ceil(
-          (currentFillPercentage - targetFillPercentage) / pointPercentage
-        )
-        let removedPoints = 0
         while (
-          calculateFillPercentage() > targetFillPercentage &&
-          removedPoints < pointsToRemove * 2
+          calculateFillPercentage() - pointPercentage >
+          targetFillPercentage
         ) {
           const x = Math.random() * canvas.width
           const y = Math.random() * canvas.height
 
-          ctx.clearRect(
-            x - pointSize,
-            y - pointSize,
-            pointSize * 2,
-            pointSize * 2
-          )
-
-          removedPoints++
+          // Save the current composite operation
+          const prevOperation = ctx.globalCompositeOperation
+          // Set composite operation to destination-out to create transparent circle
+          ctx.globalCompositeOperation = 'destination-out'
+          ctx.beginPath()
+          ctx.arc(x, y, pointSize, 0, Math.PI * 2)
+          ctx.fill()
+          // Restore the previous composite operation
+          ctx.globalCompositeOperation = prevOperation
         }
       }
     }, [controlledValue, POINT_AREA, pointSize])
