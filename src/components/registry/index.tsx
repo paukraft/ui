@@ -7,7 +7,14 @@ import SlingshotSliderDemo from './slingshot-slider/demo'
 import { TallSlider } from './tall-slider/component'
 import TallSliderDemo from './tall-slider/demo'
 
-export const weirdComponents = [
+export const registryCollections = {
+  weirdui: {
+    name: 'Weird UI',
+    description: 'A collection of weird UI components',
+  },
+} as const
+
+export const registryComponents = [
   {
     name: 'Bike Pump Slider',
     description: 'A slider that behaves like a bike pump.',
@@ -29,6 +36,7 @@ export const weirdComponents = [
     },
     path: 'bike-pump-slider',
     dependencies: ['motion', '@radix-ui/react-slider'],
+    collections: ['weirdui'],
   },
   {
     name: 'Canvas Slider',
@@ -45,6 +53,7 @@ export const weirdComponents = [
     },
     path: 'canvas-slider',
     dependencies: ['@radix-ui/react-slider'],
+    collections: ['weirdui'],
   },
   {
     name: 'Slingshot Slider',
@@ -80,6 +89,7 @@ export const weirdComponents = [
     },
     path: 'slingshot-slider',
     dependencies: ['motion', '@radix-ui/react-slider', 'lucide-react'],
+    collections: ['weirdui'],
   },
   {
     name: 'Tall Slider',
@@ -89,5 +99,15 @@ export const weirdComponents = [
     customProps: {},
     path: 'tall-slider',
     dependencies: ['@radix-ui/react-slider'],
+    collections: ['weirdui'],
   },
-]
+] satisfies {
+  name: string
+  description: string
+  component: React.ComponentType<any>
+  demo?: React.ComponentType<any>
+  customProps: Record<string, any>
+  path: string
+  dependencies: string[]
+  collections: (keyof typeof registryCollections)[]
+}[]

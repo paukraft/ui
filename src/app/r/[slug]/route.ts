@@ -1,4 +1,4 @@
-import { weirdComponents } from '@/components/weirdui'
+import { registryComponents } from '@/components/registry'
 import fs from 'fs'
 import { NextResponse } from 'next/server'
 import path from 'path'
@@ -10,7 +10,7 @@ export async function GET(
   const { slug } = await params
 
   try {
-    const component = weirdComponents.find(
+    const component = registryComponents.find(
       (c) => c.name.toLowerCase().replace(/\s+/g, '-') === slug
     )
 
@@ -28,7 +28,7 @@ export async function GET(
     const componentPath = path.join(
       process.cwd(),
       basePath,
-      'weirdui',
+      'registry',
       component.path,
       'component.tsx'
     )

@@ -1,7 +1,7 @@
 import { CopyDropdown } from '@/components/copy-dropdown'
+import { registryComponents } from '@/components/registry'
+import { CustomPropsDemo } from '@/components/registry/custom-props-demo'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { weirdComponents } from '@/components/weirdui'
-import { CustomPropsDemo } from '@/components/weirdui/custom-props-demo'
 import fs from 'fs'
 import { notFound } from 'next/navigation'
 import path from 'path'
@@ -12,7 +12,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>
 }) {
   const { slug } = await params
-  const component = weirdComponents.find(
+  const component = registryComponents.find(
     (c) => c.name.toLowerCase().replace(/\s+/g, '-') === slug
   )
   return {
@@ -27,15 +27,13 @@ export default async function ComponentPage({
 }) {
   const { slug } = await params
 
-  const component = weirdComponents.find(
+  const component = registryComponents.find(
     (c) => c.name.toLowerCase().replace(/\s+/g, '-') === slug
   )
 
   if (!component) {
     notFound()
   }
-
-  const hasCustomProps = Object.keys(component.customProps).length > 0
 
   // Determine the environment
   const isProd = process.env.NODE_ENV === 'production'
@@ -47,7 +45,7 @@ export default async function ComponentPage({
     const demoPath = path.join(
       process.cwd(),
       basePath,
-      'weirdui',
+      'registry',
       component.path,
       'demo.tsx'
     )
@@ -64,7 +62,7 @@ export default async function ComponentPage({
     const componentPath = path.join(
       process.cwd(),
       basePath,
-      'weirdui',
+      'registry',
       component.path,
       'component.tsx'
     )
@@ -80,6 +78,8 @@ export default async function ComponentPage({
 
   const DemoComponent = component.demo
 
+  const hasDemo = !!component.demo
+
   return (
     <section className="w-full p-6 flex flex-col gap-12">
       <div className="flex flex-col gap-4">
@@ -89,9 +89,12 @@ export default async function ComponentPage({
         </p>
       </div>
 
-      <div className="flex flex-col gap-8">
+      <div className="flex flex-col gap-10">
         <div className="rounded-lg border bg-card">
-          <Tabs defaultValue="demo" className="w-full">
+          <Tabs
+            defaultValue={hasDemo ? 'demo' : 'playground'}
+            className="w-full"
+          >
             <TabsList className="w-full justify-start rounded-b-none border-b bg-transparent p-0 h-auto overflow-hidden">
               <TabsTrigger
                 value="playground"
@@ -99,18 +102,22 @@ export default async function ComponentPage({
               >
                 Playground
               </TabsTrigger>
-              <TabsTrigger
-                value="demo"
-                className="rounded-none border-b-2 border-transparent data-[state=active]:border-foreground"
-              >
-                Demo
-              </TabsTrigger>
-              <TabsTrigger
-                value="code"
-                className="rounded-none border-b-2 border-transparent data-[state=active]:border-foreground"
-              >
-                Demo Code
-              </TabsTrigger>
+              {hasDemo && (
+                <>
+                  <TabsTrigger
+                    value="demo"
+                    className="rounded-none border-b-2 border-transparent data-[state=active]:border-foreground"
+                  >
+                    Demo
+                  </TabsTrigger>
+                  <TabsTrigger
+                    value="code"
+                    className="rounded-none border-b-2 border-transparent data-[state=active]:border-foreground"
+                  >
+                    Demo Code
+                  </TabsTrigger>
+                </>
+              )}
             </TabsList>
             <TabsContent value="demo" className="p-6">
               {DemoComponent ? (
@@ -133,60 +140,63 @@ export default async function ComponentPage({
           </Tabs>
         </div>
 
-        <div className="rounded-lg border bg-card">
-          <Tabs defaultValue="cli" className="w-full">
-            <TabsList className="w-full justify-start rounded-b-none border-b bg-transparent p-0 h-auto overflow-hidden">
-              <TabsTrigger
-                value="cli"
-                className="rounded-none border-b-2 border-transparent data-[state=active]:border-foreground"
-              >
-                CLI
-              </TabsTrigger>
-              <TabsTrigger
-                value="manual"
-                className="rounded-none border-b-2 border-transparent data-[state=active]:border-foreground"
-              >
-                Manual
-              </TabsTrigger>
-            </TabsList>
-            <TabsContent value="cli" className="p-6">
-              <div className="flex justify-between gap-4">
-                <p className="text-sm">
-                  npx shadcn@latest add &quot;https://ui.paukraft.com/r/{slug}
-                  &quot;
-                </p>
-                <CopyDropdown
-                  items={[
-                    {
-                      label: 'npm',
-                      value: `npx shadcn@latest add "https://ui.paukraft.com/r/${slug}"`,
-                    },
-                    {
-                      label: 'yarn',
-                      value: `yarn dlx shadcn@latest add "https://ui.paukraft.com/r/${slug}"`,
-                    },
-                    {
-                      label: 'pnpm',
-                      value: `pnpm dlx shadcn@latest add "https://ui.paukraft.com/r/${slug}"`,
-                    },
-                    {
-                      label: 'bun',
-                      value: `bunx --bun shadcn@latest add "https://ui.paukraft.com/r/${slug}"`,
-                    },
-                    {
-                      label: 'deno',
-                      value: `deno run npm:shadcn@latest add "https://ui.paukraft.com/r/${slug}"`,
-                    },
-                  ]}
-                />
-              </div>
-            </TabsContent>
-            <TabsContent value="manual" className="p-6">
-              <pre className="p-4 rounded-lg bg-secondary overflow-x-auto">
-                <code className="text-sm">{componentCode}</code>
-              </pre>
-            </TabsContent>
-          </Tabs>
+        <div className="flex flex-col gap-4">
+          <h2 className="text-2xl md:text-3xl font-bold">Installation</h2>
+          <div className="rounded-lg border bg-card">
+            <Tabs defaultValue="cli" className="w-full">
+              <TabsList className="w-full justify-start rounded-b-none border-b bg-transparent p-0 h-auto overflow-hidden">
+                <TabsTrigger
+                  value="cli"
+                  className="rounded-none border-b-2 border-transparent data-[state=active]:border-foreground"
+                >
+                  CLI
+                </TabsTrigger>
+                <TabsTrigger
+                  value="manual"
+                  className="rounded-none border-b-2 border-transparent data-[state=active]:border-foreground"
+                >
+                  Manual
+                </TabsTrigger>
+              </TabsList>
+              <TabsContent value="cli" className="p-6">
+                <div className="flex justify-between gap-4">
+                  <p className="text-sm">
+                    npx shadcn@latest add &quot;https://ui.paukraft.com/r/{slug}
+                    &quot;
+                  </p>
+                  <CopyDropdown
+                    items={[
+                      {
+                        label: 'npm',
+                        value: `npx shadcn@latest add "https://ui.paukraft.com/r/${slug}"`,
+                      },
+                      {
+                        label: 'yarn',
+                        value: `yarn dlx shadcn@latest add "https://ui.paukraft.com/r/${slug}"`,
+                      },
+                      {
+                        label: 'pnpm',
+                        value: `pnpm dlx shadcn@latest add "https://ui.paukraft.com/r/${slug}"`,
+                      },
+                      {
+                        label: 'bun',
+                        value: `bunx --bun shadcn@latest add "https://ui.paukraft.com/r/${slug}"`,
+                      },
+                      {
+                        label: 'deno',
+                        value: `deno run npm:shadcn@latest add "https://ui.paukraft.com/r/${slug}"`,
+                      },
+                    ]}
+                  />
+                </div>
+              </TabsContent>
+              <TabsContent value="manual" className="p-6">
+                <pre className="p-4 rounded-lg bg-secondary overflow-x-auto">
+                  <code className="text-sm">{componentCode}</code>
+                </pre>
+              </TabsContent>
+            </Tabs>
+          </div>
         </div>
 
         <div className="flex flex-col gap-4">

@@ -19,12 +19,13 @@ export default function CanvasSliderDemo() {
         <CanvasSlider
           value={value}
           onValueChange={handleValueChange}
-          pointSize={3}
+          pointSize={5}
         />
         {isComplete && (
-          <div className="absolute inset-0 flex items-center justify-center animate-fade-in">
-            <div className="text-sm font-medium text-background">
-              🎉 You won 20% off!
+          <div className="absolute inset-0 flex items-center justify-center animate-fade-in bg-background/60 backdrop-blur-sm">
+            <div className="text-sm font-medium text-primary">
+              🎉 You won 20% off with code{' '}
+              <span className="font-bold">20OFF</span>
             </div>
           </div>
         )}

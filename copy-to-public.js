@@ -2,8 +2,8 @@ const fs = require('fs');
 const path = require('path');
 
 // Define source and target directories
-const sourceDir = path.join(process.cwd(), 'src/components/weirdui');
-const targetDir = path.join(process.cwd(), 'public/weirdui');
+const sourceDir = path.join(process.cwd(), 'src/components/registry');
+const targetDir = path.join(process.cwd(), 'public/registry');
 
 function copyComponentFiles(src, dest) {
   // Ensure the destination directory exists

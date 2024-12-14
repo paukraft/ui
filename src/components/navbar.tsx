@@ -6,6 +6,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import GithubButton from './github-button'
+import { MobileNav } from './mobile-nav'
 
 const Navbar = () => {
   const pathname = usePathname()
@@ -31,17 +32,7 @@ const Navbar = () => {
               Components
             </Link>
           </div>
-          {/* <Sheet>
-            <SheetTrigger asChild className="md:hidden">
-              <button className="p-2 hover:bg-accent rounded-md">
-                <Menu className="h-5 w-5" />
-                <span className="sr-only">Toggle Menu</span>
-              </button>
-            </SheetTrigger>
-            <SheetContent side="right" className="w-[300px] sm:w-[400px] pr-0">
-              <MobileNav />
-            </SheetContent>
-          </Sheet> */}
+          <MobileNav />
         </div>
       </div>
     </div>
