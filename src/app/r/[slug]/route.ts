@@ -1,7 +1,6 @@
 import { registryComponents } from '@/components/registry'
-import fs from 'fs'
+import { getComponentCode } from '@/lib/get-component-code'
 import { NextResponse } from 'next/server'
-import path from 'path'
 
 export async function GET(
   request: Request,
@@ -21,19 +20,7 @@ export async function GET(
       )
     }
 
-    // Determine the environment
-    const isProd = process.env.NODE_ENV === 'production'
-    const basePath = isProd ? 'public' : 'src/components'
-
-    const componentPath = path.join(
-      process.cwd(),
-      basePath,
-      'registry',
-      component.path,
-      'component.tsx'
-    )
-
-    const content = fs.readFileSync(componentPath, 'utf-8')
+    const content = getComponentCode({ component, type: 'component' })
 
     const registryData = {
       name: slug,
@@ -42,7 +29,7 @@ export async function GET(
       files: [
         {
           path: `ui/${slug}.tsx`,
-          content: content,
+          content,
           type: 'registry:ui',
           target: '',
         },

@@ -1,10 +1,10 @@
 import { CopyDropdown } from '@/components/copy-dropdown'
 import { registryComponents } from '@/components/registry'
 import { CustomPropsDemo } from '@/components/registry/custom-props-demo'
+import { CodeBlock } from '@/components/ui/code-block'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import fs from 'fs'
+import { getComponentCode } from '@/lib/get-component-code'
 import { notFound } from 'next/navigation'
-import path from 'path'
 
 export async function generateMetadata({
   params,
@@ -35,49 +35,13 @@ export default async function ComponentPage({
     notFound()
   }
 
-  // Determine the environment
-  const isProd = process.env.NODE_ENV === 'production'
-  const basePath = isProd ? 'public' : 'src/components'
-
-  // Read demo file content if path exists
-  let demoCode = ''
-  if (component.path) {
-    const demoPath = path.join(
-      process.cwd(),
-      basePath,
-      'registry',
-      component.path,
-      'demo.tsx'
-    )
-    try {
-      demoCode = fs.readFileSync(demoPath, 'utf-8')
-    } catch (error) {
-      console.error(`Failed to read demo file for ${component.name}:`, error)
-    }
-  }
-
-  // Read component file content if path exists
-  let componentCode = ''
-  if (component.path) {
-    const componentPath = path.join(
-      process.cwd(),
-      basePath,
-      'registry',
-      component.path,
-      'component.tsx'
-    )
-    try {
-      componentCode = fs.readFileSync(componentPath, 'utf-8')
-    } catch (error) {
-      console.error(
-        `Failed to read component file for ${component.name}:`,
-        error
-      )
-    }
-  }
+  // Get demo and component code
+  const demoCode = component.demo
+    ? getComponentCode({ component, type: 'demo' })
+    : ''
+  const componentCode = getComponentCode({ component, type: 'component' })
 
   const DemoComponent = component.demo
-
   const hasDemo = !!component.demo
 
   return (
@@ -120,22 +84,17 @@ export default async function ComponentPage({
               )}
             </TabsList>
             <TabsContent value="demo" className="p-6">
-              {DemoComponent ? (
-                <DemoComponent />
-              ) : (
-                <component.component defaultValue={[50]} />
-              )}
+              {DemoComponent ? <DemoComponent /> : <component.component />}
             </TabsContent>
             <TabsContent value="playground" className="p-6">
               <CustomPropsDemo
                 component={component.component}
                 customProps={component.customProps as any}
+                type={component.type}
               />
             </TabsContent>
             <TabsContent value="code" className="p-6">
-              <pre className="p-4 rounded-lg bg-secondary overflow-x-auto">
-                <code className="text-sm">{component.path && demoCode}</code>
-              </pre>
+              <CodeBlock code={component.path && demoCode} />
             </TabsContent>
           </Tabs>
         </div>
@@ -143,7 +102,10 @@ export default async function ComponentPage({
         <div className="flex flex-col gap-4">
           <h2 className="text-2xl md:text-3xl font-bold">Installation</h2>
           <div className="rounded-lg border bg-card">
-            <Tabs defaultValue="cli" className="w-full">
+            <Tabs
+              defaultValue="cli"
+              className="w-full max-w-full overflow-x-hidden"
+            >
               <TabsList className="w-full justify-start rounded-b-none border-b bg-transparent p-0 h-auto overflow-hidden">
                 <TabsTrigger
                   value="cli"
@@ -160,7 +122,7 @@ export default async function ComponentPage({
               </TabsList>
               <TabsContent value="cli" className="p-6">
                 <div className="flex justify-between gap-4">
-                  <p className="text-sm">
+                  <p className="text-sm overflow-x-auto whitespace-nowrap">
                     npx shadcn@latest add &quot;https://ui.paukraft.com/r/{slug}
                     &quot;
                   </p>
@@ -190,10 +152,8 @@ export default async function ComponentPage({
                   />
                 </div>
               </TabsContent>
-              <TabsContent value="manual" className="p-6">
-                <pre className="p-4 rounded-lg bg-secondary overflow-x-auto">
-                  <code className="text-sm">{componentCode}</code>
-                </pre>
+              <TabsContent value="manual" className="p-6 max-w-full">
+                <CodeBlock code={componentCode} />
               </TabsContent>
             </Tabs>
           </div>

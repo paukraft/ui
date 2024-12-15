@@ -8,7 +8,7 @@ export default function DocsLayout({
   return (
     <div className="flex container mx-auto flex-1">
       <DocsSidebar />
-      <div className="flex-1">{children}</div>
+      <div className="flex-1 max-w-full overflow-hidden">{children}</div>
     </div>
   )
 }

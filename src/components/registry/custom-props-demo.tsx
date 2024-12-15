@@ -20,6 +20,7 @@ type CustomPropsMap = {
 type CustomPropsDemoProps = {
   component: React.ComponentType<any>
   customProps: CustomPropsMap
+  type?: 'slider'
 }
 
 const Inputs: Record<
@@ -56,6 +57,7 @@ const Inputs: Record<
 export const CustomPropsDemo = ({
   component: Component,
   customProps,
+  type,
 }: CustomPropsDemoProps) => {
   const [value, setValue] = useState([50])
   const [props, setProps] = useState(() => {
@@ -75,6 +77,11 @@ export const CustomPropsDemo = ({
     setValue(newValue)
     handlePropChange('value', newValue)
   }
+
+  const componentProps =
+    type === 'slider'
+      ? { ...props, value, onValueChange: handleValueChange }
+      : props
 
   return (
     <div className="flex flex-col gap-8">
@@ -122,24 +129,26 @@ export const CustomPropsDemo = ({
           </p>
         )}
       </div>
-      <Component {...props} value={value} onValueChange={handleValueChange} />
-      <div className="flex flex-col gap-2">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <Label>Value</Label>
-            {customProps.value?.required && (
-              <span className="text-destructive">*</span>
-            )}
+      <Component {...componentProps} />
+      {type === 'slider' && (
+        <div className="flex flex-col gap-2">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <Label>Value</Label>
+              {customProps.value?.required && (
+                <span className="text-destructive">*</span>
+              )}
+            </div>
+            <div className="flex items-center gap-2 text-sm text-muted-foreground">
+              {customProps.value?.defaultValue && (
+                <span>Default: {customProps.value.defaultValue[0]}</span>
+              )}
+              <span>Current: {value[0]}</span>
+            </div>
           </div>
-          <div className="flex items-center gap-2 text-sm text-muted-foreground">
-            {customProps.value?.defaultValue && (
-              <span>Default: {customProps.value.defaultValue[0]}</span>
-            )}
-            <span>Current: {value[0]}</span>
-          </div>
+          <Slider value={value} onValueChange={handleValueChange} />
         </div>
-        <Slider value={value} onValueChange={handleValueChange} />
-      </div>
+      )}
     </div>
   )
 }

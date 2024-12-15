@@ -2,19 +2,38 @@ import { BikePumpSlider } from './bike-pump-slider/component'
 import BikePumpSliderDemo from './bike-pump-slider/demo'
 import { CanvasSlider } from './canvas-slider/component'
 import CanvasSliderDemo from './canvas-slider/demo'
+import { Skeleton } from './skeleton-plus/component'
+import SkeletonPlusDemo from './skeleton-plus/demo'
 import { SlingshotSlider } from './slingshot-slider/component'
 import SlingshotSliderDemo from './slingshot-slider/demo'
 import { TallSlider } from './tall-slider/component'
 import TallSliderDemo from './tall-slider/demo'
 
 export const registryCollections = {
+  paukraftui: {
+    name: 'paukraft UI',
+    description:
+      'A collection of high-quality, reusable components built with Shadcn principles while working on various projects',
+  },
   weirdui: {
     name: 'Weird UI',
     description: 'A collection of weird UI components',
   },
 } as const
 
-export const registryComponents = [
+export const registryComponents: {
+  name: string
+  description: string
+  component: React.ComponentType<any>
+  demo?: React.ComponentType<any>
+  customProps: Record<string, any>
+  path: string
+  dependencies: string[]
+  collections: (keyof typeof registryCollections)[]
+  type?: 'slider'
+  clientComponent?: boolean // TODO: remove if we have a better solution!
+  // This is a workaround because all component.tsx files need to be client components in order to work in custom-props-demo.tsx
+}[] = [
   {
     name: 'Bike Pump Slider',
     description: 'A slider that behaves like a bike pump.',
@@ -31,12 +50,14 @@ export const registryComponents = [
         description: 'The speed at which the pump leaks.',
         type: 'number',
         required: false,
-        defaultValue: 10,
+        defaultValue: 1,
       },
     },
     path: 'bike-pump-slider',
     dependencies: ['motion', '@radix-ui/react-slider'],
     collections: ['weirdui'],
+    type: 'slider',
+    clientComponent: true,
   },
   {
     name: 'Canvas Slider',
@@ -54,6 +75,8 @@ export const registryComponents = [
     path: 'canvas-slider',
     dependencies: ['@radix-ui/react-slider'],
     collections: ['weirdui'],
+    type: 'slider',
+    clientComponent: true,
   },
   {
     name: 'Slingshot Slider',
@@ -90,6 +113,8 @@ export const registryComponents = [
     path: 'slingshot-slider',
     dependencies: ['motion', '@radix-ui/react-slider', 'lucide-react'],
     collections: ['weirdui'],
+    type: 'slider',
+    clientComponent: true,
   },
   {
     name: 'Tall Slider',
@@ -100,14 +125,26 @@ export const registryComponents = [
     path: 'tall-slider',
     dependencies: ['@radix-ui/react-slider'],
     collections: ['weirdui'],
+    type: 'slider',
+    clientComponent: false,
   },
-] satisfies {
-  name: string
-  description: string
-  component: React.ComponentType<any>
-  demo?: React.ComponentType<any>
-  customProps: Record<string, any>
-  path: string
-  dependencies: string[]
-  collections: (keyof typeof registryCollections)[]
-}[]
+  {
+    name: 'Skeleton Plus',
+    description:
+      'Improved shadcn/ui skeleton with added text-based sizing support (text-sm, text-lg etc)',
+    component: Skeleton,
+    demo: SkeletonPlusDemo,
+    customProps: {
+      variant: {
+        description: 'The variant of the skeleton. dark | bright',
+        type: 'string',
+        required: false,
+        defaultValue: 'dark',
+      },
+    },
+    path: 'skeleton-plus',
+    dependencies: [],
+    collections: ['paukraftui'],
+    clientComponent: false,
+  },
+]

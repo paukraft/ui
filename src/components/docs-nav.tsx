@@ -14,7 +14,7 @@ export const DocsNav = ({ closeNav }: { closeNav?: () => void }) => {
       ...collection,
       components:
         groupBy(registryComponents, (component) =>
-          component.collections.includes(key as any)
+          component.collections.includes(key as never)
         ).true?.sort((a, b) => a.name.localeCompare(b.name)) || [],
     })
   )
