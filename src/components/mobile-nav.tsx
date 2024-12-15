@@ -25,7 +25,10 @@ export function MobileNav() {
           <span className="sr-only">Toggle Menu</span>
         </button>
       </SheetTrigger>
-      <SheetContent side="right" className="w-[300px] sm:w-[400px] pr-0">
+      <SheetContent
+        side="right"
+        className="w-[300px] sm:w-[400px] pr-0 max-h-[100dvh]"
+      >
         <SheetHeader>
           <SheetTitle>
             <Link
@@ -37,7 +40,7 @@ export function MobileNav() {
             </Link>
           </SheetTitle>
         </SheetHeader>
-        <div className="flex flex-col gap-4 pr-6 pt-6">
+        <div className="flex flex-col gap-4 pr-6 pt-6 flex-1 max-h-full overflow-y-auto">
           <DocsNav closeNav={() => setOpen(false)} />
         </div>
       </SheetContent>
