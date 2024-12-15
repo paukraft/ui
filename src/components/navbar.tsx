@@ -23,7 +23,7 @@ const Navbar = () => {
           <Link
             href={`/docs/components`}
             className={cn(
-              'hover:text-primary transition-colors',
+              'hover:text-primary transition-colors hidden md:block',
               pathname.includes('/docs') && 'text-primary'
             )}
           >
