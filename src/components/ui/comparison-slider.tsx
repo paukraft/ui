@@ -16,14 +16,13 @@ export const ComparisonSlider = ({
 }) => {
   const [isInteracting, setIsInteracting] = useState(false)
   const [position, setPosition] = useState(50)
-  const [clipPosition, setClipPosition] = useState(50)
+  const [clipPosition, setClipPosition] = useState(0)
   const containerRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     if (containerRef.current) {
       const containerWidth = containerRef.current.clientWidth
-      const containerScrollWidth = containerRef.current.scrollWidth
-      const newClipPosition = (position * containerWidth) / containerScrollWidth
+      const newClipPosition = (position * containerWidth) / 100
       setClipPosition(newClipPosition)
     }
   }, [position])
@@ -66,7 +65,7 @@ export const ComparisonSlider = ({
         <div
           className="relative p-6"
           style={{
-            clipPath: `inset(0 0 0 ${clipPosition}%)`,
+            clipPath: `inset(0 0 0 ${clipPosition}px)`,
           }}
         >
           {secondComponent}
@@ -77,7 +76,7 @@ export const ComparisonSlider = ({
       <div
         className="absolute inset-0 min-w-max p-6"
         style={{
-          clipPath: `inset(0 ${100 - clipPosition}% 0 0)`,
+          clipPath: `inset(0 calc(100% - ${clipPosition}px) 0 0)`,
         }}
       >
         {firstComponent}
@@ -86,7 +85,7 @@ export const ComparisonSlider = ({
       {/* Divider Line */}
       <div
         className={cn(
-          'absolute top-0 h-full w-0.5 translate-x-1/2 bg-primary transition-opacity',
+          'absolute top-0 h-full w-0.5 -translate-x-1/2 bg-primary transition-opacity',
           isInteracting || !sliderDisappearOnMouseLeave
             ? 'opacity-100'
             : 'opacity-0'
