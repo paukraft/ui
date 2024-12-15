@@ -27,12 +27,13 @@ const DocsPage = () => {
         <div className="flex flex-col gap-2">
           <h2 className="text-2xl font-bold">Philosophy</h2>
           <p className="text-muted-foreground">
-            These components mostly follow shadcn/ui&apos;s design principles -
-            clean, functional, and looking like they could be part of the
-            original library. This library is continuously evolving, with new
-            components being added as I develop in my ongoing other projects.
+            These components closely follow shadcn/ui&apos;s design principles -
+            clean, functional, and appearing as if they were part of the
+            original library. This library continuously evolves as new
+            components are added during development of my other ongoing projects.
           </p>
         </div>
+      </div>
 
         <div className="flex flex-col gap-2">
           <h2 className="text-2xl font-bold">Installation</h2>
