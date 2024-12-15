@@ -2,6 +2,8 @@ import { BikePumpSlider } from './bike-pump-slider/component'
 import BikePumpSliderDemo from './bike-pump-slider/demo'
 import { CanvasSlider } from './canvas-slider/component'
 import CanvasSliderDemo from './canvas-slider/demo'
+import { ComparisonSlider } from './comparison-slider/component'
+import ComparisonSliderDemo from './comparison-slider/demo'
 import { Skeleton } from './skeleton-plus/component'
 import SkeletonPlusDemo from './skeleton-plus/demo'
 import { SlingshotSlider } from './slingshot-slider/component'
@@ -146,5 +148,41 @@ export const registryComponents: {
     dependencies: [],
     collections: ['paukraftui'],
     clientComponent: false,
+  },
+  {
+    name: 'Comparison Slider',
+    description:
+      'A slider component that allows comparison between two elements with a draggable divider.',
+    component: ComparisonSlider,
+    demo: ComparisonSliderDemo,
+    customProps: {
+      firstComponent: {
+        description: 'The component to show on the left side',
+        type: 'React.ReactNode',
+        required: true,
+      },
+      secondComponent: {
+        description: 'The component to show on the right side',
+        type: 'React.ReactNode',
+        required: true,
+      },
+      autoHideSlider: {
+        description:
+          'Whether the slider line should disappear when not interacting',
+        type: 'boolean',
+        required: false,
+        defaultValue: false,
+      },
+      defaultPosition: {
+        description: 'The default position of the slider in % from 0 to 100',
+        type: 'number',
+        required: false,
+        defaultValue: 50,
+      },
+    },
+    path: 'comparison-slider',
+    dependencies: [],
+    collections: ['paukraftui'],
+    clientComponent: true,
   },
 ]

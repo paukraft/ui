@@ -1,11 +1,11 @@
 'use client'
 
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
-import { ComparisonSlider } from '@/components/ui/comparison-slider'
+import { ComparisonSlider } from '../comparison-slider/component'
 import { Skeleton } from './component'
 
 const UserProfile = () => (
-  <div className="flex items-center gap-4">
+  <div className="flex items-center gap-4 p-6">
     <Avatar>
       <AvatarFallback>JD</AvatarFallback>
     </Avatar>
@@ -22,7 +22,7 @@ const UserProfile = () => (
 )
 
 const LoadingUserProfile = () => (
-  <div className="flex items-center gap-4">
+  <div className="flex items-center gap-4 p-6">
     <Skeleton className="size-10 rounded-full" />
     <div className="flex flex-col gap-1">
       <Skeleton className="w-16" />
