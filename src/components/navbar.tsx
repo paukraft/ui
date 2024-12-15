@@ -11,7 +11,6 @@ import { MobileNav } from './mobile-nav'
 
 const Navbar = () => {
   const pathname = usePathname()
-  const firstComponent = 'bike-pump-slider'
 
   return (
     <div className="border-b">
@@ -22,7 +21,7 @@ const Navbar = () => {
             paukraft/ui
           </Link>
           <Link
-            href={`/docs/components/${firstComponent}`}
+            href={`/docs/components`}
             className={cn(
               'hover:text-primary transition-colors',
               pathname.includes('/docs') && 'text-primary'

@@ -1,7 +1,15 @@
 import { CopyDropdown } from '@/components/copy-dropdown'
-import { registryComponents } from '@/components/registry'
+import { registryCollections, registryComponents } from '@/components/registry'
 import { CustomPropsDemo } from '@/components/registry/custom-props-demo'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from '@/components/ui/breadcrumb'
 import { CodeBlock } from '@/components/ui/code-block'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { getComponentCode } from '@/lib/get-component-code'
@@ -51,8 +59,32 @@ export default async function ComponentPage({
 
   return (
     <section className="w-full p-6 flex flex-col gap-6 md:gap-12">
-      <div className="flex flex-col gap-4">
-        <h1 className="text-4xl md:text-6xl font-black">{component.name}</h1>
+      <div className="flex flex-col gap-2">
+        <Breadcrumb>
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <BreadcrumbLink href="/docs">Docs</BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              {component.collections.map((collection) => (
+                <BreadcrumbLink
+                  key={collection}
+                  href={`/docs/collections/${collection}`}
+                >
+                  {registryCollections[collection].name}
+                </BreadcrumbLink>
+              ))}
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <BreadcrumbPage>{component.name}</BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
+        <h1 className="text-4xl md:text-6xl font-black mt-2">
+          {component.name}
+        </h1>
         <p className="text-lg md:text-xl text-muted-foreground">
           {component.description}
         </p>

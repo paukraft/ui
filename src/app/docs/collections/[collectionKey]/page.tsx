@@ -1,4 +1,12 @@
 import { registryCollections, registryComponents } from '@/components/registry'
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from '@/components/ui/breadcrumb'
 import { groupBy } from 'lodash'
 import { ArrowUpRight } from 'lucide-react'
 import { Metadata } from 'next'
@@ -45,8 +53,21 @@ const CollectionPage = ({ params }: Props) => {
 
   return (
     <section className="w-full p-6 flex flex-col gap-6 md:gap-12">
-      <div className="flex flex-col gap-4">
-        <h1 className="text-4xl md:text-6xl font-black">{collection.name}</h1>
+      <div className="flex flex-col gap-2">
+        <Breadcrumb>
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <BreadcrumbLink href="/docs">Docs</BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <BreadcrumbPage>{collection.name}</BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
+        <h1 className="text-4xl md:text-6xl font-black mt-2">
+          {collection.name}
+        </h1>
         <p className="text-lg md:text-xl text-muted-foreground">
           {collection.description}
         </p>
