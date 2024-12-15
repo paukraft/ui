@@ -14,17 +14,18 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 
 type Props = {
-  params: {
+  params: Promise<{
     collectionKey: string
-  }
+  }>
 }
 
-export const generateMetadata = ({ params }: Props): Metadata => {
-  const collection =
-    registryCollections[
-      params.collectionKey as keyof typeof registryCollections
-    ]
+export const generateMetadata = async ({
+  params,
+}: Props): Promise<Metadata> => {
+  const { collectionKey } = await params
 
+  const collection =
+    registryCollections[collectionKey as keyof typeof registryCollections]
   if (!collection) {
     return {
       title: 'Collection Not Found',
@@ -37,18 +38,18 @@ export const generateMetadata = ({ params }: Props): Metadata => {
   }
 }
 
-const CollectionPage = ({ params }: Props) => {
+const CollectionPage = async ({ params }: Props) => {
+  const { collectionKey } = await params
+
   const collection =
-    registryCollections[
-      params.collectionKey as keyof typeof registryCollections
-    ]
+    registryCollections[collectionKey as keyof typeof registryCollections]
 
   if (!collection) {
     notFound()
   }
 
   const components = groupBy(registryComponents, (component) =>
-    component.collections.includes(params.collectionKey as never)
+    component.collections.includes(collectionKey as never)
   ).true?.sort((a, b) => a.name.localeCompare(b.name))
 
   return (
