@@ -31,8 +31,23 @@ export const getComponentCode = ({
   try {
     let code = fs.readFileSync(filePath, 'utf-8')
 
-    if (!component.clientComponent && type === 'component') {
-      code = code.replace("'use client'", '').trim()
+    // Format the code
+    code = code.trim()
+
+    // Convert all string literals to double quotes
+    code = code.replace(/(['"])(.*?)\1/g, (match, quote, content) => {
+      return `"${content}"`
+    })
+
+    // Handle client directive
+    if (component.clientComponent && type === 'component') {
+      // Remove any existing 'use client' directive
+      code = code.replace(/"use client"\n*/g, '')
+      // Add properly formatted directive
+      code = `"use client"\n\n${code}`
+    } else {
+      // Remove client directive if it exists
+      code = code.replace(/"use client"\n*/g, '').trim()
     }
 
     return code
