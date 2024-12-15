@@ -1,7 +1,7 @@
 'use client'
 
 import { cn } from '@/lib/utils'
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 export const ComparisonSlider = ({
   firstComponent,
@@ -16,7 +16,17 @@ export const ComparisonSlider = ({
 }) => {
   const [isInteracting, setIsInteracting] = useState(false)
   const [position, setPosition] = useState(50)
+  const [clipPosition, setClipPosition] = useState(50)
   const containerRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    if (containerRef.current) {
+      const containerWidth = containerRef.current.clientWidth
+      const containerScrollWidth = containerRef.current.scrollWidth
+      const newClipPosition = (position * containerWidth) / containerScrollWidth
+      setClipPosition(newClipPosition)
+    }
+  }, [position])
 
   const handleMove = (clientX: number) => {
     if (!containerRef.current) return
@@ -55,7 +65,9 @@ export const ComparisonSlider = ({
         {/* Second Component (Right side) */}
         <div
           className="relative p-6"
-          style={{ clipPath: `inset(0 0 0 ${position}%)` }}
+          style={{
+            clipPath: `inset(0 0 0 ${clipPosition}%)`,
+          }}
         >
           {secondComponent}
         </div>
@@ -64,7 +76,9 @@ export const ComparisonSlider = ({
       {/* First Component (Left side) */}
       <div
         className="absolute inset-0 min-w-max p-6"
-        style={{ clipPath: `inset(0 ${100 - position}% 0 0)` }}
+        style={{
+          clipPath: `inset(0 ${100 - clipPosition}% 0 0)`,
+        }}
       >
         {firstComponent}
       </div>
