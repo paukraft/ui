@@ -1,30 +1,49 @@
 'use client'
 
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover'
+import { Slider } from '@/components/ui/slider'
+import { Play, Volume2 } from 'lucide-react'
 import { useState } from 'react'
 import { TallSlider } from './component'
 
 export default function TallSliderDemo() {
-  const [value, setValue] = useState<number[]>([50])
+  const [volume, setVolume] = useState<number[]>([50])
+  const [progress, setProgress] = useState<number[]>([30])
 
   return (
-    <div className="w-full max-w-sm mx-auto space-y-4">
-      <div className="flex flex-col items-center gap-2">
-        <div className="text-sm font-medium">Building Height Visualizer</div>
-        <div className="flex items-end gap-4">
-          <div className="flex justify-center">
-            <TallSlider value={value} onValueChange={setValue} />
-          </div>
-          <div
-            className="relative w-16 bg-secondary/30"
-            style={{ height: `${value[0]}%` }}
-          >
-            <div className="absolute -left-16 top-1/2 text-xs text-muted-foreground whitespace-nowrap">
-              {Math.round(value[0] * 3.28084)} ft
-            </div>
-          </div>
-        </div>
-        <div className="text-center text-sm text-muted-foreground">
-          {value[0]}m tall
+    <div className="w-full max-w-xl mx-auto space-y-4">
+      <div className="w-full aspect-video bg-muted rounded-lg flex items-center justify-center">
+        <span className="text-muted-foreground">Video Player</span>
+      </div>
+
+      <div className="flex items-center gap-4 px-2">
+        <button className="p-2 hover:bg-muted rounded-lg transition-colors">
+          <Play className="w-5 h-5" />
+        </button>
+
+        <Popover defaultOpen>
+          <PopoverTrigger asChild>
+            <button className="p-2 hover:bg-muted rounded-lg transition-colors">
+              <Volume2 className="w-5 h-5" />
+            </button>
+          </PopoverTrigger>
+          <PopoverContent side="top" className="w-fit">
+            <TallSlider
+              value={volume}
+              onValueChange={setVolume}
+              className="h-[120px]"
+            />
+          </PopoverContent>
+        </Popover>
+
+        <div className="text-sm text-muted-foreground">1:23 / 4:56</div>
+
+        <div className="flex-1">
+          <Slider value={progress} onValueChange={setProgress} />
         </div>
       </div>
     </div>

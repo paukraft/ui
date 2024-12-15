@@ -1,5 +1,7 @@
 import { registryComponents } from '@/components/registry'
 import { getComponentCode } from '@/lib/get-component-code'
+import { parseRegistryDependency } from '@/lib/registry-utils'
+import { map } from 'lodash'
 import { NextResponse } from 'next/server'
 
 export async function GET(
@@ -9,9 +11,7 @@ export async function GET(
   const { slug } = await params
 
   try {
-    const component = registryComponents.find(
-      (c) => c.name.toLowerCase().replace(/\s+/g, '-') === slug
-    )
+    const component = registryComponents.find((c) => c.path === slug)
 
     if (!component || !component.path) {
       return NextResponse.json(
@@ -26,6 +26,9 @@ export async function GET(
       name: slug,
       type: 'registry:ui',
       dependencies: component.dependencies,
+      registryDependencies: map(component.registryDependencies, (dep) =>
+        parseRegistryDependency({ dependency: dep })
+      ),
       files: [
         {
           path: `ui/${slug}.tsx`,

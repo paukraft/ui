@@ -1,8 +1,7 @@
 'use client'
 
-import { Button } from '@/components/ui/button'
+import { CopyButton } from '@/components/registry/copy-button/component'
 import { cn } from '@/lib/utils'
-import { Check, Copy } from 'lucide-react'
 import * as React from 'react'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import {
@@ -19,14 +18,6 @@ type CodeBlockProps = {
 
 const CodeBlock = React.forwardRef<HTMLDivElement, CodeBlockProps>(
   ({ code, language = 'tsx', className, showLineNumbers = false }, ref) => {
-    const [isCopied, setIsCopied] = React.useState(false)
-
-    const handleCopy = async () => {
-      await navigator.clipboard.writeText(code)
-      setIsCopied(true)
-      setTimeout(() => setIsCopied(false), 2000)
-    }
-
     // Customize theme based on dark/light mode
     const lightStyle = {
       ...oneLight,
@@ -63,25 +54,16 @@ const CodeBlock = React.forwardRef<HTMLDivElement, CodeBlockProps>(
     }
 
     return (
-      <div ref={ref} className={cn('w-full rounded-lg bg-muted', className)}>
+      <div
+        ref={ref}
+        className={cn('w-full rounded-lg bg-muted relative', className)}
+      >
         <div className="flex items-center justify-between px-4 py-2">
           <div className="text-sm text-muted-foreground">
             {language.toUpperCase()}
           </div>
-          <Button
-            variant="ghost"
-            size="icon"
-            className="h-8 w-8"
-            onClick={handleCopy}
-          >
-            {isCopied ? (
-              <Check className="h-4 w-4 text-green-500" />
-            ) : (
-              <Copy className="h-4 w-4" />
-            )}
-            <span className="sr-only">Copy code</span>
-          </Button>
         </div>
+        <CopyButton text={code} className="size-4 absolute right-4 top-4" />
         <div className="max-w-full overflow-x-auto">
           <div className="dark:hidden">
             <SyntaxHighlighter

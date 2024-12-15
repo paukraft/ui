@@ -1,9 +1,15 @@
+import { AnimatedCheckIcon } from './animated-check-icon/component'
+import { AnimatedCheckIconDemo } from './animated-check-icon/demo'
+import { AnimatedCopyIcon } from './animated-copy-icon/component'
+import { AnimatedCopyIconDemo } from './animated-copy-icon/demo'
 import { BikePumpSlider } from './bike-pump-slider/component'
 import BikePumpSliderDemo from './bike-pump-slider/demo'
 import { CanvasSlider } from './canvas-slider/component'
 import CanvasSliderDemo from './canvas-slider/demo'
 import { ComparisonSlider } from './comparison-slider/component'
 import ComparisonSliderDemo from './comparison-slider/demo'
+import { CopyButton } from './copy-button/component'
+import { CopyButtonDemo } from './copy-button/demo'
 import { Skeleton } from './skeleton-plus/component'
 import SkeletonPlusDemo from './skeleton-plus/demo'
 import { SlingshotSlider } from './slingshot-slider/component'
@@ -15,11 +21,16 @@ export const registryCollections = {
   paukraftui: {
     name: 'paukraft UI',
     description:
-      'A collection of high-quality, reusable components built with Shadcn principles while working on various projects',
+      'A collection of high-quality, reusable components built with Shadcn principles that I build for my own projects',
   },
   weirdui: {
     name: 'Weird UI',
     description: 'A collection of weird UI components',
+  },
+  animatedicons: {
+    name: 'Animated Icons',
+    description:
+      'A collection of animated icons with smooth interactions. Based on icons from lucide.dev',
   },
 } as const
 
@@ -31,8 +42,9 @@ export const registryComponents: {
   customProps: Record<string, any>
   path: string
   dependencies: string[]
+  registryDependencies?: string[] // prefix with pau- to point to components from paukraft/ui
   collections: (keyof typeof registryCollections)[]
-  type?: 'slider'
+  type?: 'slider' | 'animated-icon'
   clientComponent?: boolean // TODO: remove if we have a better solution!
   // This is a workaround because all component.tsx files need to be client components in order to work in custom-props-demo.tsx
 }[] = [
@@ -182,6 +194,65 @@ export const registryComponents: {
     },
     path: 'comparison-slider',
     dependencies: [],
+    collections: ['paukraftui'],
+    clientComponent: true,
+  },
+  {
+    name: 'Animated Copy Icon',
+    description:
+      'A copy icon that animates on hover with a smooth spring effect. Originally from icons.pqoqubbw.dev but with modified animation logic.',
+    component: AnimatedCopyIcon,
+    demo: AnimatedCopyIconDemo,
+    customProps: {},
+    path: 'animated-copy-icon',
+    dependencies: ['motion'],
+    collections: ['animatedicons'],
+    type: 'animated-icon',
+    clientComponent: true,
+  },
+  {
+    name: 'Animated Check Icon',
+    description:
+      'A check icon that animates on hover with a smooth spring effect. Originally from icons.pqoqubbw.dev but with modified animation logic.',
+    component: AnimatedCheckIcon,
+    demo: AnimatedCheckIconDemo,
+    customProps: {},
+    path: 'animated-check-icon',
+    dependencies: ['motion'],
+    collections: ['animatedicons'],
+    type: 'animated-icon',
+    clientComponent: true,
+  },
+  {
+    name: 'Copy Button',
+    description:
+      'A button that copies text to clipboard with animated feedback using animated icons.',
+    component: CopyButton,
+    demo: CopyButtonDemo,
+    customProps: {
+      text: {
+        description: 'The text to copy to clipboard.',
+        type: 'string',
+        required: true,
+      },
+      stopPropagation: {
+        description:
+          'Whether to stop event propagation when clicking the button.',
+        type: 'boolean',
+        required: false,
+        defaultValue: false,
+      },
+      animationTime: {
+        description:
+          'Duration in milliseconds for how long the check icon is shown after copying.',
+        type: 'number',
+        required: false,
+        defaultValue: 3000,
+      },
+    },
+    path: 'copy-button',
+    dependencies: [],
+    registryDependencies: ['pau-animated-copy-icon', 'pau-animated-check-icon'],
     collections: ['paukraftui'],
     clientComponent: true,
   },

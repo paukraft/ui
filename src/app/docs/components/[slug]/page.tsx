@@ -1,9 +1,15 @@
 import { CopyDropdown } from '@/components/copy-dropdown'
 import { registryComponents } from '@/components/registry'
 import { CustomPropsDemo } from '@/components/registry/custom-props-demo'
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { CodeBlock } from '@/components/ui/code-block'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { getComponentCode } from '@/lib/get-component-code'
+import {
+  getRegistryUrlFromComponent,
+  parseRegistryDependency,
+} from '@/lib/registry-utils'
+import { Info } from 'lucide-react'
 import { notFound } from 'next/navigation'
 
 export async function generateMetadata({
@@ -12,9 +18,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>
 }) {
   const { slug } = await params
-  const component = registryComponents.find(
-    (c) => c.name.toLowerCase().replace(/\s+/g, '-') === slug
-  )
+  const component = registryComponents.find((c) => c.path === slug)
   return {
     title: component?.name,
     description: component?.description,
@@ -100,6 +104,17 @@ export default async function ComponentPage({
           </Tabs>
         </div>
 
+        {component.type === 'animated-icon' && (
+          <Alert>
+            <Info className="size-4" />
+            <AlertTitle>Usage Note</AlertTitle>
+            <AlertDescription>
+              All animated icons add their hover listnerers on the closest
+              element with class &quot;group&quot;.
+            </AlertDescription>
+          </Alert>
+        )}
+
         <div className="flex flex-col gap-4">
           <h2 className="text-2xl md:text-3xl font-bold">Installation</h2>
           <div className="rounded-lg border bg-card">
@@ -124,30 +139,41 @@ export default async function ComponentPage({
               <TabsContent value="cli" className="p-6">
                 <div className="flex justify-between gap-4">
                   <p className="text-sm overflow-x-auto whitespace-nowrap">
-                    npx shadcn@latest add &quot;https://ui.paukraft.com/r/{slug}
+                    npx shadcn@latest add &quot;
+                    {getRegistryUrlFromComponent({ component })}
                     &quot;
                   </p>
                   <CopyDropdown
                     items={[
                       {
                         label: 'npm',
-                        value: `npx shadcn@latest add "https://ui.paukraft.com/r/${slug}"`,
+                        value: `npx shadcn@latest add "${getRegistryUrlFromComponent(
+                          { component }
+                        )}"`,
                       },
                       {
                         label: 'yarn',
-                        value: `yarn dlx shadcn@latest add "https://ui.paukraft.com/r/${slug}"`,
+                        value: `yarn dlx shadcn@latest add "${getRegistryUrlFromComponent(
+                          { component }
+                        )}"`,
                       },
                       {
                         label: 'pnpm',
-                        value: `pnpm dlx shadcn@latest add "https://ui.paukraft.com/r/${slug}"`,
+                        value: `pnpm dlx shadcn@latest add "${getRegistryUrlFromComponent(
+                          { component }
+                        )}"`,
                       },
                       {
                         label: 'bun',
-                        value: `bunx --bun shadcn@latest add "https://ui.paukraft.com/r/${slug}"`,
+                        value: `bunx --bun shadcn@latest add "${getRegistryUrlFromComponent(
+                          { component }
+                        )}"`,
                       },
                       {
                         label: 'deno',
-                        value: `deno run npm:shadcn@latest add "https://ui.paukraft.com/r/${slug}"`,
+                        value: `deno run npm:shadcn@latest add "${getRegistryUrlFromComponent(
+                          { component }
+                        )}"`,
                       },
                     ]}
                   />
@@ -183,6 +209,50 @@ export default async function ComponentPage({
             </p>
           )}
         </div>
+
+        {(component.dependencies?.length ||
+          0 > 0 ||
+          component.registryDependencies?.length ||
+          0 > 0) && (
+          <div className="flex flex-col gap-4">
+            <h2 className="text-2xl md:text-3xl font-bold">Dependencies</h2>
+            <div className="grid gap-4">
+              {component.dependencies?.length > 0 && (
+                <div className="flex flex-col gap-2">
+                  <h3 className="text-lg font-semibold">NPM Dependencies</h3>
+                  <div className="flex flex-wrap gap-2">
+                    {component.dependencies.map((dep) => (
+                      <div
+                        key={dep}
+                        className="rounded-md bg-muted px-2.5 py-0.5 text-sm font-mono"
+                      >
+                        {dep}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+              {component.registryDependencies?.length &&
+                component.registryDependencies.length > 0 && (
+                  <div className="flex flex-col gap-2">
+                    <h3 className="text-lg font-semibold">
+                      Registry Dependencies
+                    </h3>
+                    <div className="flex flex-wrap gap-2">
+                      {component.registryDependencies.map((dep) => (
+                        <div
+                          key={dep}
+                          className="rounded-md bg-muted px-2.5 py-0.5 text-sm font-mono"
+                        >
+                          {parseRegistryDependency({ dependency: dep })}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+            </div>
+          </div>
+        )}
       </div>
     </section>
   )

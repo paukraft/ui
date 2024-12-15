@@ -4,15 +4,14 @@ import { cn } from '@/lib/utils'
 import { groupBy } from 'lodash'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { PropsWithChildren } from 'react'
+import { PropsWithChildren, ReactNode } from 'react'
 import { registryCollections, registryComponents } from './registry'
 
 export const DocsNav = ({ closeNav }: { closeNav?: () => void }) => {
-  const pathname = usePathname()
-
   const componentsByCollection = Object.entries(registryCollections).map(
     ([key, collection]) => ({
       ...collection,
+      key,
       components:
         groupBy(registryComponents, (component) =>
           component.collections.includes(key as never)
@@ -30,16 +29,28 @@ export const DocsNav = ({ closeNav }: { closeNav?: () => void }) => {
       </NavGroup>
       {componentsByCollection.map((collection) => (
         <NavGroup key={collection.name}>
-          <NavGroupTitle>{collection.name}</NavGroupTitle>
+          <NavGroupTitle>
+            <Link href={`/docs/collections/${collection.key}`}>
+              {collection.name}
+            </Link>
+          </NavGroupTitle>
           <NavGroupItemList>
             {collection.components.map((component) => {
-              const slug = component.name.toLowerCase().replace(/\s+/g, '-')
+              const slug = component.path
               return (
                 <NavItem
                   key={component.name}
-                  name={component.name}
+                  name={
+                    <>
+                      {component.type === 'animated-icon' && (
+                        <component.component />
+                      )}
+                      {component.name}
+                    </>
+                  }
                   href={`/docs/components/${slug}`}
                   closeNav={closeNav}
+                  className="group"
                 />
               )
             })}
@@ -55,11 +66,13 @@ export const NavItem = ({
   href,
   closeNav,
   isActive: isActiveProp,
+  className,
 }: {
-  name: string
+  name: ReactNode
   href: string
   closeNav?: () => void
   isActive?: boolean
+  className?: string
 }) => {
   const pathname = usePathname()
 
@@ -69,8 +82,9 @@ export const NavItem = ({
     <Link
       href={href}
       className={cn(
-        'block py-1 px-2 rounded-md hover:bg-secondary transition-colors',
-        isActive && 'bg-secondary'
+        'py-1 px-2 rounded-md hover:bg-secondary transition-colors flex items-center gap-2',
+        isActive && 'bg-secondary',
+        className
       )}
       onClick={closeNav}
     >
@@ -80,7 +94,7 @@ export const NavItem = ({
 }
 
 export const NavGroupTitle = ({ children }: PropsWithChildren) => {
-  return <div className="font-medium mb-4">{children}</div>
+  return <div className="font-bold mb-4">{children}</div>
 }
 
 export const NavGroupItemList = ({ children }: PropsWithChildren) => {

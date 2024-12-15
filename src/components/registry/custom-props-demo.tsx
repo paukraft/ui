@@ -1,27 +1,14 @@
 'use client'
 
+import { registryComponents } from '@/components/registry'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Slider } from '@/components/ui/slider'
 import { useState } from 'react'
 
-type CustomProp = {
-  description: string
-  type: string
-  required: boolean
-  defaultValue?: any
-}
-
-type CustomPropsMap = {
-  [key: string]: CustomProp
-}
-
-type CustomPropsDemoProps = {
-  component: React.ComponentType<any>
-  customProps: CustomPropsMap
-  type?: 'slider'
-}
+type ComponentType = (typeof registryComponents)[number]['type']
+type CustomProp = (typeof registryComponents)[number]['customProps'][string]
 
 const Inputs: Record<
   string,
@@ -58,7 +45,11 @@ export const CustomPropsDemo = ({
   component: Component,
   customProps,
   type,
-}: CustomPropsDemoProps) => {
+}: {
+  component: React.ComponentType<any>
+  customProps: Record<string, CustomProp>
+  type?: ComponentType
+}) => {
   const [value, setValue] = useState([50])
   const [props, setProps] = useState(() => {
     const initialProps: Record<string, any> = {}
@@ -129,7 +120,14 @@ export const CustomPropsDemo = ({
           </p>
         )}
       </div>
-      <Component {...componentProps} />
+      <div className="flex gap-2 items-center">
+        {type === 'animated-icon' && (
+          <div className="text-sm text-muted-foreground">Hover over me:</div>
+        )}
+        <div className="group">
+          <Component {...componentProps} />
+        </div>
+      </div>
       {type === 'slider' && (
         <div className="flex flex-col gap-2">
           <div className="flex items-center justify-between">
