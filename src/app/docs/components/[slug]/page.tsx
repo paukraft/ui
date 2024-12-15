@@ -16,7 +16,8 @@ export async function generateMetadata({
     (c) => c.name.toLowerCase().replace(/\s+/g, '-') === slug
   )
   return {
-    title: `${component?.name}`,
+    title: component?.name,
+    description: component?.description,
   }
 }
 

@@ -16,9 +16,9 @@ export default function Home() {
         Tailwind CSS. Fully compatible with shadcn/ui and ready to use in your
         next project.
       </div>
-      <Link href="/docs/components">
+      <Link href="/docs">
         <Button className="group rounded-full" variant="outline" size="sm">
-          Components
+          Get Started
           <ArrowRight
             className="-me-1 ms-2 opacity-60 transition-transform group-hover:translate-x-0.5"
             size={16}

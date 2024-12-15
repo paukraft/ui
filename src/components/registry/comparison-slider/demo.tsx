@@ -28,7 +28,7 @@ const ComparisonSliderDemo = () => {
 
   return (
     <ComparisonSlider
-      className="min-h-[250px] font-mono"
+      className="font-mono"
       firstComponent={
         <div className="flex h-full w-full flex-col gap-2 rounded-lg bg-card p-6">
           <p className="text-sm text-muted-foreground">
