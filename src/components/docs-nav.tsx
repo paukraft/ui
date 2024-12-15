@@ -30,7 +30,10 @@ export const DocsNav = ({ closeNav }: { closeNav?: () => void }) => {
       {componentsByCollection.map((collection) => (
         <NavGroup key={collection.name}>
           <NavGroupTitle>
-            <Link href={`/docs/collections/${collection.key}`}>
+            <Link
+              href={`/docs/collections/${collection.key}`}
+              onClick={closeNav}
+            >
               {collection.name}
             </Link>
           </NavGroupTitle>
