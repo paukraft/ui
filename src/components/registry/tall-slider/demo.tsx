@@ -31,11 +31,11 @@ export default function TallSliderDemo() {
               <Volume2 className="w-5 h-5" />
             </button>
           </PopoverTrigger>
-          <PopoverContent side="top" className="w-fit">
+          <PopoverContent side="top" className="w-fit p-3">
             <TallSlider
               value={volume}
               onValueChange={setVolume}
-              className="h-[120px]"
+              className="w-8"
             />
           </PopoverContent>
         </Popover>
