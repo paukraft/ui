@@ -264,6 +264,9 @@ const CanvasSlider = React.forwardRef<HTMLInputElement, CanvasSliderProps>(
       const ctx = canvas.getContext('2d')
       if (!ctx) return 0
 
+      // Ensure canvas has dimensions
+      if (canvas.width === 0 || canvas.height === 0) return 0
+
       const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height)
       const data = imageData.data
       let filledPixels = 0
@@ -296,22 +299,20 @@ const CanvasSlider = React.forwardRef<HTMLInputElement, CanvasSliderProps>(
         />
         <div
           className={cn(
-            'relative flex w-full touch-none select-none items-center',
+            'relative h-6 w-64 grow overflow-hidden border-[1px] bg-secondary',
             className
           )}
         >
-          <div className="relative h-6 w-full grow overflow-hidden border-[1px] bg-secondary">
-            <canvas
-              ref={canvasRef}
-              className="absolute inset-0 h-full w-full touch-none"
-              onPointerDown={handlePointerDown}
-              onPointerMove={handlePointerMove}
-              onPointerUp={handlePointerUp}
-              onPointerLeave={handlePointerUp}
-              onPointerCancel={handlePointerUp}
-              style={{ touchAction: 'none' }}
-            />
-          </div>
+          <canvas
+            ref={canvasRef}
+            className="absolute inset-0 h-full w-full touch-none"
+            onPointerDown={handlePointerDown}
+            onPointerMove={handlePointerMove}
+            onPointerUp={handlePointerUp}
+            onPointerLeave={handlePointerUp}
+            onPointerCancel={handlePointerUp}
+            style={{ touchAction: 'none' }}
+          />
         </div>
       </>
     )

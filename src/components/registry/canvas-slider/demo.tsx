@@ -20,6 +20,7 @@ export default function CanvasSliderDemo() {
           value={value}
           onValueChange={handleValueChange}
           pointSize={5}
+          className="w-full"
         />
         {isComplete && (
           <div className="absolute inset-0 flex items-center justify-center animate-fade-in bg-background/60 backdrop-blur-sm">
