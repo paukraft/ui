@@ -24,8 +24,6 @@ These components closely follow shadcn/ui's design principles - clean, functiona
 
 Components can be installed individually using the shadcn-ui CLI, just like official shadcn/ui components. Visit [ui.paukraft.com/docs](https://ui.paukraft.com/docs) for component-specific installation instructions and live examples.
 
-The documentation and component playground will be available at `http://localhost:3000`
-
 ## 🏗️ Project Structure
 
 ```
