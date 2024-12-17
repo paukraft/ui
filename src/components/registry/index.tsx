@@ -10,6 +10,8 @@ import { ComparisonSlider } from './comparison-slider/component'
 import ComparisonSliderDemo from './comparison-slider/demo'
 import { CopyButton } from './copy-button/component'
 import { CopyButtonDemo } from './copy-button/demo'
+import { SeededAvatar } from './seeded-avatar/component'
+import { SeededAvatarDemo } from './seeded-avatar/demo'
 import { Skeleton } from './skeleton-plus/component'
 import SkeletonPlusDemo from './skeleton-plus/demo'
 import { SlingshotSlider } from './slingshot-slider/component'
@@ -255,5 +257,41 @@ export const registryComponents: {
     registryDependencies: ['pau-animated-copy-icon', 'pau-animated-check-icon'],
     collections: ['paukraftui'],
     clientComponent: true,
+  },
+  {
+    name: 'Seeded Avatar',
+    description:
+      'A customizable avatar component that generates consistent avatars based on a seed value, with built-in dark mode support. Originally from avvvatars.com.',
+    component: SeededAvatar,
+    demo: SeededAvatarDemo,
+    customProps: {
+      value: {
+        description: 'The seed value used to generate the avatar.',
+        type: 'string',
+        required: true,
+      },
+      variant: {
+        description: 'The variant of the avatar (shape or character).',
+        type: 'string',
+        required: false,
+        defaultValue: 'shape',
+      },
+      size: {
+        description: 'The size of the avatar. (sm, default or lg)',
+        type: 'string',
+        required: false,
+        defaultValue: 'default',
+      },
+      displayValue: {
+        description:
+          'Override the value displayed in the character variant. (still only the first two characters are shown and the value is still used for the seed)',
+        type: 'string',
+        required: false,
+      },
+    },
+    path: 'seeded-avatar',
+    dependencies: [],
+    collections: ['paukraftui'],
+    clientComponent: false,
   },
 ]

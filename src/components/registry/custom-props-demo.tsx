@@ -124,7 +124,7 @@ export const CustomPropsDemo = ({
         {type === 'animated-icon' && (
           <div className="text-sm text-muted-foreground">Hover over me:</div>
         )}
-        <div className="group">
+        <div className="group w-full">
           <Component {...componentProps} />
         </div>
       </div>
