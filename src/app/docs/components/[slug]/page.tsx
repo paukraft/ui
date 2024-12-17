@@ -10,6 +10,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb'
+import { Button } from '@/components/ui/button'
 import { CodeBlock } from '@/components/ui/code-block'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { getComponentCode } from '@/lib/get-component-code'
@@ -17,7 +18,8 @@ import {
   getRegistryUrlFromComponent,
   parseRegistryDependency,
 } from '@/lib/registry-utils'
-import { Info } from 'lucide-react'
+import { ExternalLink, Info } from 'lucide-react'
+import Link from 'next/link'
 import { notFound } from 'next/navigation'
 
 export async function generateMetadata({
@@ -88,6 +90,26 @@ export default async function ComponentPage({
         <p className="text-lg md:text-xl text-muted-foreground">
           {component.description}
         </p>
+        {component.links?.length && component.links.length > 0 && (
+          <div className="flex flex-wrap gap-2">
+            {component.links?.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Button
+                  variant="secondary"
+                  className="py-1 h-auto rounded-md px-2 text-xs [&_svg]:size-3.5 gap-1"
+                >
+                  {link.label}
+                  <ExternalLink />
+                </Button>
+              </Link>
+            ))}
+          </div>
+        )}
       </div>
 
       <div className="flex flex-col gap-10">

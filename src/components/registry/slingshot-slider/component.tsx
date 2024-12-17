@@ -81,7 +81,7 @@ const SlingshotSlider = React.forwardRef<
     }, [isHolding, maxAngle, fullPowerTime])
 
     useEffect(() => {
-      const handleMouseUp = () => {
+      const handleEnd = () => {
         if (isHolding) {
           setIsHolding(false)
           const percentage = (angle / maxAngle) * 100
@@ -95,13 +95,16 @@ const SlingshotSlider = React.forwardRef<
         }
       }
 
-      document.addEventListener('mouseup', handleMouseUp)
+      document.addEventListener('mouseup', handleEnd)
+      document.addEventListener('touchend', handleEnd)
       return () => {
-        document.removeEventListener('mouseup', handleMouseUp)
+        document.removeEventListener('mouseup', handleEnd)
+        document.removeEventListener('touchend', handleEnd)
       }
     }, [isHolding, angle, maxAngle, min, max, step, onValueChange, value])
 
-    const handleMouseDown = () => {
+    const handleStart = (e: React.MouseEvent | React.TouchEvent) => {
+      e.preventDefault() // Prevent default touch behavior
       setIsHolding(true)
       setRotation(0)
     }
@@ -132,8 +135,9 @@ const SlingshotSlider = React.forwardRef<
         <div className="relative flex gap-3 overflow-visible">
           <div
             ref={iconRef}
-            className="size-9 cursor-pointer"
-            onMouseDown={handleMouseDown}
+            className="size-9 cursor-pointer touch-none"
+            onMouseDown={handleStart}
+            onTouchStart={handleStart}
             style={{
               transform: `rotate(${-angle}deg) translateY(-${angle / 5}px)`,
               transition: isHolding ? 'none' : 'transform 0.2s ease-out',

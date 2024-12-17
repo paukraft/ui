@@ -49,6 +49,12 @@ export const registryComponents: {
   type?: 'slider' | 'animated-icon'
   clientComponent?: boolean // TODO: remove if we have a better solution!
   // This is a workaround because all component.tsx files need to be client components in order to work in custom-props-demo.tsx
+  createdAt?: string
+  updatedAt?: string
+  links?: {
+    label: string
+    href: string
+  }[]
 }[] = [
   {
     name: 'Bike Pump Slider',
@@ -162,6 +168,12 @@ export const registryComponents: {
     dependencies: [],
     collections: ['paukraftui'],
     clientComponent: false,
+    links: [
+      {
+        label: 'Original',
+        href: 'https://ui.shadcn.com/docs/components/skeleton',
+      },
+    ],
   },
   {
     name: 'Comparison Slider',
@@ -211,6 +223,12 @@ export const registryComponents: {
     collections: ['animatedicons'],
     type: 'animated-icon',
     clientComponent: true,
+    links: [
+      {
+        label: 'Original',
+        href: 'https://icons.pqoqubbw.dev/?q=copy',
+      },
+    ],
   },
   {
     name: 'Animated Check Icon',
@@ -224,6 +242,12 @@ export const registryComponents: {
     collections: ['animatedicons'],
     type: 'animated-icon',
     clientComponent: true,
+    links: [
+      {
+        label: 'Original',
+        href: 'https://icons.pqoqubbw.dev/?q=check',
+      },
+    ],
   },
   {
     name: 'Copy Button',
@@ -265,7 +289,7 @@ export const registryComponents: {
     component: SeededAvatar,
     demo: SeededAvatarDemo,
     customProps: {
-      value: {
+      seed: {
         description: 'The seed value used to generate the avatar.',
         type: 'string',
         required: true,
@@ -284,7 +308,7 @@ export const registryComponents: {
       },
       displayValue: {
         description:
-          'Override the value displayed in the character variant. (still only the first two characters are shown and the value is still used for the seed)',
+          'Override the value displayed in the character variant. (still only the first two characters are shown, does not affect the seed)',
         type: 'string',
         required: false,
       },
@@ -293,5 +317,14 @@ export const registryComponents: {
     dependencies: [],
     collections: ['paukraftui'],
     clientComponent: false,
+    createdAt: '2024-12-17',
+    links: [
+      {
+        label: 'Original',
+        href: 'https://avvvatars.com/',
+      },
+    ],
   },
 ]
+
+export type Component = (typeof registryComponents)[number]

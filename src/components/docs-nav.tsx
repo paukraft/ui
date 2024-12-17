@@ -5,6 +5,7 @@ import { groupBy } from 'lodash'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { PropsWithChildren, ReactNode } from 'react'
+import { NewComponentBadge } from './new-component-badge'
 import { registryCollections, registryComponents } from './registry'
 
 export const DocsNav = ({ closeNav }: { closeNav?: () => void }) => {
@@ -49,6 +50,7 @@ export const DocsNav = ({ closeNav }: { closeNav?: () => void }) => {
                         <component.component />
                       )}
                       {component.name}
+                      <NewComponentBadge component={component} />
                     </>
                   }
                   href={`/docs/components/${slug}`}

@@ -1,3 +1,4 @@
+import { NewComponentBadge } from '@/components/new-component-badge'
 import { registryCollections, registryComponents } from '@/components/registry'
 import {
   Breadcrumb,
@@ -91,6 +92,7 @@ const CollectionPage = async ({ params }: Props) => {
                       <component.component />
                     )}
                     <h3 className="font-medium">{component.name}</h3>
+                    <NewComponentBadge component={component} />
                     <ArrowUpRight className="w-5 h-5 opacity-50 group-hover:opacity-100 group-hover:translate-x-1 group-hover:-translate-y-1 transition-all ml-auto" />
                   </div>
                   <p className="text-sm text-muted-foreground">

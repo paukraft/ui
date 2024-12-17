@@ -9,7 +9,7 @@ export const SeededAvatarDemo = () => {
         <h3 className="mb-4 font-medium">Message Thread</h3>
         <div className="space-y-4">
           <div className="flex items-center gap-3">
-            <SeededAvatar value="someone@company.com" size="sm" />
+            <SeededAvatar seed="someone@company.com" size="sm" />
             <div className="rounded-lg bg-muted px-3 py-2">
               <p className="text-sm">
                 Hey team, how's the project coming along?
@@ -20,7 +20,7 @@ export const SeededAvatarDemo = () => {
             <div className="rounded-lg bg-primary px-3 py-2 text-primary-foreground">
               <p className="text-sm">Making good progress! Will update soon.</p>
             </div>
-            <SeededAvatar value="current.user@company.com" size="sm" />
+            <SeededAvatar seed="current.user@company.com" size="sm" />
           </div>
         </div>
       </div>
@@ -31,7 +31,7 @@ export const SeededAvatarDemo = () => {
         <div className="space-y-3">
           <div className="flex items-center gap-3">
             <SeededAvatar
-              value="alex.martinez@company.com"
+              seed="alex.martinez@company.com"
               variant="character"
               size="default"
             />
@@ -45,7 +45,7 @@ export const SeededAvatarDemo = () => {
           </div>
           <div className="flex items-center gap-3">
             <SeededAvatar
-              value="jessica.chen@company.com"
+              seed="jessica.chen@company.com"
               variant="character"
               size="default"
             />

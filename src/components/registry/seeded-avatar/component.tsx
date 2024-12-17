@@ -20,32 +20,32 @@ const avatarVariants = cva(
 )
 
 export const SeededAvatar = ({
-  value = '',
+  seed = '',
   displayValue,
   variant = 'shape',
   size,
   className,
 }: {
-  value: string
+  seed: string
   displayValue?: string
   variant?: 'shape' | 'character'
   className?: string
 } & VariantProps<typeof avatarVariants>) => {
-  const name = String(displayValue || value).substring(0, 2)
+  const name = String(displayValue || seed).substring(0, 2)
 
   const getRandomInRange = (seed: number, min: number, max: number) => {
     return min + (seed % (max - min + 1))
   }
 
-  const seed = getSeededRandom(value)
-  const key = getRandomInRange(seed, 0, BACKGROUND_COLORS.length - 1)
+  const randomNumber = getSeededRandom(seed)
+  const key = getRandomInRange(randomNumber, 0, BACKGROUND_COLORS.length - 1)
   const shapeKey = getRandomInRange(
-    seed * 31,
+    randomNumber * 31,
     1,
     Object.keys(shapes).length - 1
   )
 
-  const Shape = (shapes as any)[`Shape${shapeKey}`]
+  const Shape = Object.values(shapes)[shapeKey]
 
   return (
     <div

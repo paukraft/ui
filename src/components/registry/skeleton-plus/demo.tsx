@@ -1,14 +1,12 @@
 'use client'
 
-import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import { ComparisonSlider } from '../comparison-slider/component'
+import { SeededAvatar } from '../seeded-avatar/component'
 import { Skeleton } from './component'
 
 const UserProfile = () => (
   <div className="flex items-center gap-4 p-6">
-    <Avatar>
-      <AvatarFallback>JD</AvatarFallback>
-    </Avatar>
+    <SeededAvatar seed="john.doe@company.com" size="lg" variant="character" />
     <div className="flex flex-col gap-1">
       <span className="font-medium">John Doe</span>
       <span className="text-sm text-muted-foreground">Product Designer</span>
