@@ -19,7 +19,7 @@ export default function CanvasSliderDemo() {
         <CanvasSlider
           value={value}
           onValueChange={handleValueChange}
-          pointSize={5}
+          pointSize={3}
           className="w-full"
         />
         {isComplete && (
@@ -32,7 +32,7 @@ export default function CanvasSliderDemo() {
         )}
       </div>
       <div className="text-center text-xs text-muted-foreground">
-        {isComplete ? 'Coupon revealed!' : 'Keep scratching...'}
+        {isComplete ? 'Coupon revealed!' : `Current progress: ${value[0]}%`}
       </div>
     </div>
   )
