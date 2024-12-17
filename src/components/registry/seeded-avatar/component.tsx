@@ -4,7 +4,7 @@ import { cn } from '@/lib/utils'
 import { cva, type VariantProps } from 'class-variance-authority'
 
 const avatarVariants = cva(
-  'dark:invert dark:hue-rotate-180 flex items-center justify-center rounded-full uppercase',
+  'dark:invert dark:hue-rotate-180 flex items-center justify-center rounded-full uppercase select-none',
   {
     variants: {
       size: {
