@@ -12,7 +12,7 @@ export const SeededAvatarDemo = () => {
             <SeededAvatar seed="someone@company.com" size="sm" />
             <div className="rounded-lg bg-muted px-3 py-2">
               <p className="text-sm">
-                Hey team, how's the project coming along?
+                Hey team, how&apos;s the project coming along?
               </p>
             </div>
           </div>
