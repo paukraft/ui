@@ -10,9 +10,18 @@ import { Play, Volume2 } from 'lucide-react'
 import { useState } from 'react'
 import { TallSlider } from './component'
 
+const formatTime = (seconds: number) => {
+  const minutes = Math.floor(seconds / 60)
+  const remainingSeconds = Math.floor(seconds % 60)
+  return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`
+}
+
 export default function TallSliderDemo() {
   const [volume, setVolume] = useState<number[]>([50])
   const [progress, setProgress] = useState<number[]>([30])
+
+  const totalDuration = 296
+  const currentTime = (progress[0] / 100) * totalDuration
 
   return (
     <div className="w-full max-w-xl mx-auto space-y-4">
@@ -26,9 +35,10 @@ export default function TallSliderDemo() {
         </button>
 
         <Popover defaultOpen>
-          <PopoverTrigger asChild>
-            <button className="p-2 hover:bg-muted rounded-lg transition-colors">
-              <Volume2 className="w-5 h-5" />
+          <PopoverTrigger asChild className="group">
+            <button className="p-2 hover:bg-muted rounded-lg transition-colors relative">
+              <div className="animate-ping absolute size-5 rounded-full bg-current opacity-75 group-data-[state=open]:hidden"></div>
+              <Volume2 className="relative size-5" />
             </button>
           </PopoverTrigger>
           <PopoverContent side="top" className="w-fit p-3">
@@ -40,7 +50,9 @@ export default function TallSliderDemo() {
           </PopoverContent>
         </Popover>
 
-        <div className="text-sm text-muted-foreground">1:23 / 4:56</div>
+        <div className="text-sm text-muted-foreground">
+          {formatTime(currentTime)} / {formatTime(totalDuration)}
+        </div>
 
         <div className="flex-1">
           <Slider value={progress} onValueChange={setProgress} />
