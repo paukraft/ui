@@ -321,7 +321,7 @@ export const registryComponents: {
     createdAt: '2024-12-17',
     links: [
       {
-        label: 'Original',
+        label: 'Shapes Origin',
         href: 'https://avvvatars.com/',
       },
     ],
