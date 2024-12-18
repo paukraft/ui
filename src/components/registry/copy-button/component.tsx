@@ -10,11 +10,13 @@ export const CopyButton = ({
   className,
   stopPropagation = false,
   animationTime = 3000,
+  onCopy,
 }: {
   text: string
   className?: string
   stopPropagation?: boolean
   animationTime?: number
+  onCopy?: () => void
 }) => {
   const [copied, setCopied] = useState(false)
 
@@ -26,6 +28,7 @@ export const CopyButton = ({
     navigator.clipboard.writeText(text)
     setCopied(true)
     setTimeout(() => setCopied(false), animationTime)
+    onCopy?.()
   }
 
   return (

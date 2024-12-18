@@ -28,9 +28,11 @@ const CommandMenu = () => {
     return () => document.removeEventListener('keydown', down)
   }, [])
 
-  const isMac =
-    typeof window !== 'undefined' &&
-    navigator.platform.toUpperCase().indexOf('MAC') >= 0
+  const [isMac, setIsMac] = useState(true)
+
+  useEffect(() => {
+    setIsMac(navigator.platform.toUpperCase().indexOf('MAC') >= 0)
+  }, [])
 
   const componentsByCollection = Object.entries(registryCollections).map(
     ([key, collection]) => ({

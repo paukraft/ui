@@ -14,10 +14,14 @@ type CodeBlockProps = {
   language?: string
   className?: string
   showLineNumbers?: boolean
+  onCopy?: () => void
 }
 
 const CodeBlock = React.forwardRef<HTMLDivElement, CodeBlockProps>(
-  ({ code, language = 'tsx', className, showLineNumbers = false }, ref) => {
+  (
+    { code, language = 'tsx', className, showLineNumbers = false, onCopy },
+    ref
+  ) => {
     // Customize theme based on dark/light mode
     const lightStyle = {
       ...oneLight,
@@ -63,7 +67,11 @@ const CodeBlock = React.forwardRef<HTMLDivElement, CodeBlockProps>(
             {language.toUpperCase()}
           </div>
         </div>
-        <CopyButton text={code} className="size-4 absolute right-4 top-4" />
+        <CopyButton
+          text={code}
+          className="size-4 absolute right-4 top-4"
+          onCopy={onCopy}
+        />
         <div className="max-w-full overflow-x-auto">
           <div className="dark:hidden">
             <SyntaxHighlighter

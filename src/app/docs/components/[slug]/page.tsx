@@ -14,10 +14,12 @@ import { Button } from '@/components/ui/button'
 import { CodeBlock } from '@/components/ui/code-block'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { getComponentCode } from '@/lib/get-component-code'
+import { op } from '@/lib/op'
 import {
   getRegistryUrlFromComponent,
   parseRegistryDependency,
 } from '@/lib/registry-utils'
+import { waitUntil } from '@vercel/functions'
 import { ExternalLink, Info } from 'lucide-react'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
@@ -234,7 +236,19 @@ export default async function ComponentPage({
                 </div>
               </TabsContent>
               <TabsContent value="manual" className="p-6 max-w-full">
-                <CodeBlock code={componentCode} />
+                <CodeBlock
+                  code={componentCode}
+                  onCopy={async () => {
+                    'use server'
+
+                    waitUntil(
+                      op.track('installed_component', {
+                        component: component.path,
+                        methode: 'manual copy',
+                      })
+                    )
+                  }}
+                />
               </TabsContent>
             </Tabs>
           </div>

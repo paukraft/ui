@@ -1,6 +1,8 @@
 import { registryComponents } from '@/components/registry'
 import { getComponentCode } from '@/lib/get-component-code'
+import { op } from '@/lib/op'
 import { parseRegistryDependency } from '@/lib/registry-utils'
+import { waitUntil } from '@vercel/functions'
 import { map } from 'lodash'
 import { NextResponse } from 'next/server'
 
@@ -38,6 +40,13 @@ export async function GET(
         },
       ],
     }
+
+    waitUntil(
+      op.track('installed_component', {
+        component: component.path,
+        methode: 'shadcn/ui cli',
+      })
+    )
 
     return NextResponse.json(registryData)
   } catch (error) {
