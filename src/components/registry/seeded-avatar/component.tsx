@@ -8,9 +8,9 @@ const avatarVariants = cva(
   {
     variants: {
       size: {
-        sm: 'size-6 text-xs',
-        default: 'size-8 text-sm',
-        lg: 'size-10 text-base',
+        sm: 'size-6',
+        default: 'size-8',
+        lg: 'size-10',
       },
     },
     defaultVariants: {
@@ -58,7 +58,24 @@ export const SeededAvatar = ({
       }}
       className={cn(avatarVariants({ size }), className)}
     >
-      {variant === 'character' && <span>{name}</span>}
+      {variant === 'character' && (
+        <svg
+          className="size-3/4"
+          viewBox="-10 -10 120 120"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <text
+            x="50"
+            y="50"
+            dominantBaseline="central"
+            textAnchor="middle"
+            fontSize="65"
+            fill="currentColor"
+          >
+            {name}
+          </text>
+        </svg>
+      )}
       {variant === 'shape' && <Shape className="size-1/2" />}
     </div>
   )
@@ -334,6 +351,24 @@ const shapes = {
     </svg>
   ),
 
+  //              ,,
+  //             `&M`
+  //            .*&&*.
+  //            f&&&&u
+  // '|r/1-+I;"/&&&&&&),:!>]1/r/'
+  //   !M&&&&&&&&&&&&&&&&&&&&&I
+  //    '/&&&&&&&&&&&&&&&&&&/'
+  //      IM&&&&&&&&&&&&&&MI
+  //      IM&&&&&&&&&&&&&&MI
+  //    '/&&&&&&&&&&&&&&&&&&/'
+  //   I&&&&&&&&&&&&&&&&&&&&&M!
+  // '|r/1]>!:,)&&&&&&/":I+-1/r|'
+  //            u&&&&f
+  //            .*&&*.
+  //             `M&`
+  //              ,,
+
+  // Shape 82 in figma
   //               .$$.
   //               .$$.
   //     !M!       .$$.       !M!

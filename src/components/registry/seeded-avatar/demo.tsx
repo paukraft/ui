@@ -61,6 +61,73 @@ export const SeededAvatarDemo = () => {
           </div>
         </div>
       </div>
+
+      {/* All variants and sizes example */}
+      <div className="rounded-lg border p-4">
+        <h3 className="mb-4 font-medium">All Variants & Sizes</h3>
+        <div className="flex flex-col gap-6">
+          <div className="space-y-2">
+            <p className="text-sm text-muted-foreground">Character Variant</p>
+            <div className="flex items-center gap-4">
+              <SeededAvatar
+                seed="avatar.custom@test.com"
+                variant="character"
+                className="size-16"
+              />
+              <SeededAvatar
+                seed="avatar.lg@test.com"
+                size="lg"
+                variant="character"
+              />
+              <SeededAvatar
+                seed="avatar.default@test.com"
+                size="default"
+                variant="character"
+              />
+              <SeededAvatar
+                seed="avatar.sm@test.com"
+                size="sm"
+                variant="character"
+              />
+            </div>
+          </div>
+          {/* <div className="space-y-2">
+            <p className="text-sm text-muted-foreground">Marble Variant</p>
+            <div className="flex items-center gap-4">
+              <SeededAvatar seed="avatar.lg@test.com" size="lg" variant="marble" />
+              <SeededAvatar seed="avatar.default@test.com" size="default" variant="marble" />
+              <SeededAvatar seed="avatar.sm@test.com" size="sm" variant="marble" />
+              <SeededAvatar seed="avatar.xs@test.com" size="xs" variant="marble" />
+            </div>
+          </div> */}
+          <div className="space-y-2">
+            <p className="text-sm text-muted-foreground">Shape Variant</p>
+            <div className="flex items-center gap-4">
+              <SeededAvatar
+                seed="avatar.custom@test.com"
+                size="lg"
+                variant="shape"
+                className="size-16"
+              />
+              <SeededAvatar
+                seed="avatar.lg@test.com"
+                size="lg"
+                variant="shape"
+              />
+              <SeededAvatar
+                seed="avatar.default@test.com"
+                size="default"
+                variant="shape"
+              />
+              <SeededAvatar
+                seed="avatar.sm@test.com"
+                size="sm"
+                variant="shape"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   )
 }
