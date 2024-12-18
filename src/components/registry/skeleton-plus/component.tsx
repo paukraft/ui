@@ -12,8 +12,8 @@ function Skeleton({
       <div
         className={cn(
           'w-32 animate-pulse rounded-md',
-          variant === 'dark' && 'bg-muted',
-          variant === 'bright' && 'bg-muted-foreground',
+          variant === 'dark' && 'bg-muted-foreground dark:bg-muted',
+          variant === 'bright' && 'bg-muted dark:bg-muted-foreground',
           className
         )}
       >
