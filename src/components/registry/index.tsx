@@ -295,7 +295,8 @@ export const registryComponents: {
         required: true,
       },
       variant: {
-        description: 'The variant of the avatar (shape or character).',
+        description:
+          'The variant of the avatar (shape, character, marble or user).',
         type: 'string',
         required: false,
         defaultValue: 'shape',

@@ -5,11 +5,12 @@ import { LaptopMinimal, Moon, Sun } from 'lucide-react'
 import { useTheme } from 'next-themes'
 
 export function ModeToggle() {
-  const { setTheme, theme: actualTheme } = useTheme()
-  const theme = actualTheme ?? 'system'
+  const { setTheme, theme } = useTheme()
 
   return (
     <div className="flex rounded-full border border-border text-muted-foreground">
+      {/* TODO: find better solution, this is needed to update on first render idk why but it doesn't if this is not here */}
+      <div className="hidden">{theme}</div>
       <button
         className={cn(
           'rounded-full p-1 border border-transparent',

@@ -32,7 +32,7 @@ export const SeededAvatarDemo = () => {
           <div className="flex items-center gap-3">
             <SeededAvatar
               seed="alex.martinez@company.com"
-              variant="character"
+              variant="user"
               size="default"
             />
             <div>
@@ -46,7 +46,7 @@ export const SeededAvatarDemo = () => {
           <div className="flex items-center gap-3">
             <SeededAvatar
               seed="jessica.chen@company.com"
-              variant="character"
+              variant="user"
               size="default"
             />
             <div>
@@ -91,15 +91,32 @@ export const SeededAvatarDemo = () => {
               />
             </div>
           </div>
-          {/* <div className="space-y-2">
+          <div className="space-y-2">
             <p className="text-sm text-muted-foreground">Marble Variant</p>
             <div className="flex items-center gap-4">
-              <SeededAvatar seed="avatar.lg@test.com" size="lg" variant="marble" />
-              <SeededAvatar seed="avatar.default@test.com" size="default" variant="marble" />
-              <SeededAvatar seed="avatar.sm@test.com" size="sm" variant="marble" />
-              <SeededAvatar seed="avatar.xs@test.com" size="xs" variant="marble" />
+              <SeededAvatar
+                seed="avatar.custom@test.com"
+                size="lg"
+                variant="marble"
+                className="size-16"
+              />
+              <SeededAvatar
+                seed="avatar.lg@test.com"
+                size="lg"
+                variant="marble"
+              />
+              <SeededAvatar
+                seed="avatar.default@test.com"
+                size="default"
+                variant="marble"
+              />
+              <SeededAvatar
+                seed="avatar.sm@test.com"
+                size="sm"
+                variant="marble"
+              />
             </div>
-          </div> */}
+          </div>
           <div className="space-y-2">
             <p className="text-sm text-muted-foreground">Shape Variant</p>
             <div className="flex items-center gap-4">
@@ -123,6 +140,32 @@ export const SeededAvatarDemo = () => {
                 seed="avatar.sm@test.com"
                 size="sm"
                 variant="shape"
+              />
+            </div>
+          </div>
+          <div className="space-y-2">
+            <p className="text-sm text-muted-foreground">User Variant</p>
+            <div className="flex items-center gap-4">
+              <SeededAvatar
+                seed="avatar.custom@test.com"
+                size="lg"
+                variant="user"
+                className="size-16"
+              />
+              <SeededAvatar
+                seed="avatar.lg@test.com"
+                size="lg"
+                variant="user"
+              />
+              <SeededAvatar
+                seed="avatar.default@test.com"
+                size="default"
+                variant="user"
+              />
+              <SeededAvatar
+                seed="avatar.sm@test.com"
+                size="sm"
+                variant="user"
               />
             </div>
           </div>
