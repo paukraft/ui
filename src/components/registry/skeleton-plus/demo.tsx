@@ -6,7 +6,7 @@ import { Skeleton } from './component'
 
 const UserProfile = () => (
   <div className="flex items-center gap-4 p-6">
-    <SeededAvatar seed="john.doe@company.com" size="lg" variant="character" />
+    <SeededAvatar seed="john.doe@company.com" size="lg" variant="user" />
     <div className="flex flex-col gap-1">
       <span className="font-medium">John Doe</span>
       <span className="text-sm text-muted-foreground">Product Designer</span>
