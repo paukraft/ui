@@ -4,7 +4,7 @@ import { cn } from '@/lib/utils'
 import { cva, type VariantProps } from 'class-variance-authority'
 
 const avatarVariants = cva(
-  'dark:invert dark:hue-rotate-180 flex items-center justify-center rounded-full uppercase select-none',
+  'dark:invert dark:hue-rotate-180 flex items-center justify-center rounded-full uppercase select-none overflow-hidden relative',
   {
     variants: {
       size: {
@@ -28,7 +28,7 @@ export const SeededAvatar = ({
 }: {
   seed: string
   displayValue?: string
-  variant?: 'shape' | 'character'
+  variant?: 'shape' | 'character' | 'marble' | 'user'
   className?: string
 } & VariantProps<typeof avatarVariants>) => {
   const name = String(displayValue || seed).substring(0, 2)
@@ -77,6 +77,132 @@ export const SeededAvatar = ({
         </svg>
       )}
       {variant === 'shape' && <Shape className="size-1/2" />}
+      {variant === 'marble' && (
+        <>
+          <svg
+            className="size-3/4 absolute dark:block hidden"
+            viewBox="0 0 100 100"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <defs>
+              <radialGradient
+                id={`marble-dark-${randomNumber}`}
+                cx="30%"
+                cy="30%"
+                r="70%"
+              >
+                <stop offset="0%" stopColor="currentColor" />
+                <stop offset="100%" stopColor="rgba(255,255,255,0.7)" />
+              </radialGradient>
+            </defs>
+            <circle
+              cx="50"
+              cy="50"
+              r="50"
+              fill={`url(#marble-dark-${randomNumber})`}
+            />
+            <circle
+              cx="30"
+              cy="30"
+              r="15"
+              fill="rgba(255,255,255,0.25)"
+              filter="blur(5px)"
+            />
+          </svg>
+          <svg
+            className="size-3/4 absolute block dark:hidden"
+            viewBox="0 0 100 100"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <defs>
+              <radialGradient
+                id={`marble-light-${randomNumber}`}
+                cx="30%"
+                cy="30%"
+                r="70%"
+              >
+                <stop offset="0%" stopColor="rgba(255,255,255,0.25)" />
+                <stop offset="100%" stopColor="currentColor" />
+              </radialGradient>
+            </defs>
+            <circle
+              cx="50"
+              cy="50"
+              r="50"
+              fill={`url(#marble-light-${randomNumber})`}
+            />
+            <circle
+              cx="30"
+              cy="30"
+              r="15"
+              fill="rgba(255,255,255,0.25)"
+              filter="blur(5px)"
+            />
+          </svg>
+        </>
+      )}
+      {variant === 'user' && (
+        <>
+          <svg
+            className="size-full absolute dark:block hidden"
+            viewBox="0 0 100 100"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <defs>
+              <radialGradient
+                id={`user-dark-${randomNumber}`}
+                cx="70%"
+                cy="30%"
+                r="100%"
+              >
+                <stop offset="0%" stopColor="currentColor" stopOpacity="0.7" />
+                <stop offset="100%" stopColor="rgba(255,255,255,0.3)" />
+              </radialGradient>
+            </defs>
+            <circle
+              cx="50"
+              cy="35"
+              r="21"
+              fill={`url(#user-dark-${randomNumber})`}
+            />
+            <circle
+              cx="50"
+              cy="90"
+              r="35"
+              fill={`url(#user-dark-${randomNumber})`}
+            />
+          </svg>
+          <svg
+            className="size-full absolute block dark:hidden"
+            viewBox="0 0 100 100"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <defs>
+              <radialGradient
+                id={`user-light-${randomNumber}`}
+                cx="30%"
+                cy="30%"
+                r="70%"
+              >
+                <stop offset="0%" stopColor="rgba(255,255,255,0.25)" />
+                <stop offset="100%" stopColor="currentColor" />
+              </radialGradient>
+            </defs>
+            <circle
+              cx="50"
+              cy="35"
+              r="21"
+              fill={`url(#user-light-${randomNumber})`}
+            />
+            <circle
+              cx="50"
+              cy="90"
+              r="35"
+              fill={`url(#user-light-${randomNumber})`}
+            />
+          </svg>
+        </>
+      )}
     </div>
   )
 }
