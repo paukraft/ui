@@ -54,9 +54,9 @@ export default async function ComponentPage({
 
   // Get demo and component code
   const demoCode = component.demo
-    ? getComponentCode({ component, type: 'demo' })
+    ? await getComponentCode({ component, type: 'demo' })
     : ''
-  const componentCode = getComponentCode({ component, type: 'component' })
+  const componentCode = await getComponentCode({ component, type: 'component' })
 
   const DemoComponent = component.demo
   const hasDemo = !!component.demo

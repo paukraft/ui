@@ -1,5 +1,5 @@
 import { registryComponents } from '@/components/registry'
-import fs from 'fs'
+import { promises as fs } from 'fs'
 import path from 'path'
 
 type GetComponentCodeOptions = {
@@ -7,7 +7,7 @@ type GetComponentCodeOptions = {
   type: 'demo' | 'component'
 }
 
-export const getComponentCode = ({
+export const getComponentCode = async ({
   component,
   type,
 }: GetComponentCodeOptions) => {
@@ -29,7 +29,7 @@ export const getComponentCode = ({
   )
 
   try {
-    let code = fs.readFileSync(filePath, 'utf-8')
+    let code = await fs.readFile(filePath, 'utf-8')
 
     // Format the code
     code = code.trim()
