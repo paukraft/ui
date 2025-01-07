@@ -22,7 +22,7 @@ export async function GET(
       )
     }
 
-    const content = getComponentCode({ component, type: 'component' })
+    const content = await getComponentCode({ component, type: 'component' })
 
     const registryData = {
       name: slug,
