@@ -246,7 +246,7 @@ export default function RadiusCalculator() {
                   Prevents radius from going below
                 </p>
               </div>
-              <div className="flex items-center bg-white dark:bg-[#2E2E31] rounded-md px-2 py-1">
+              <div className="flex items-center bg-white dark:bg-[#2E2E31] rounded-md px-2 py-1 text-sm">
                 <div className="relative">
                   <p className="opacity-0 text-end">{minRadius}</p>
                   <input
