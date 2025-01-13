@@ -339,7 +339,7 @@ const CustomSlider = React.forwardRef<
     {...props}
   >
     <SliderPrimitive.Track className="relative h-2 w-full grow overflow-hidden rounded-full bg-secondary"></SliderPrimitive.Track>
-    <SliderPrimitive.Thumb className="block h-8 w-1 bg-primary rounded-full disabled:pointer-events-none disabled:opacity-50 cursor-pointer" />
+    <SliderPrimitive.Thumb className="block h-8 w-1 bg-primary rounded-full disabled:pointer-events-none disabled:opacity-50 cursor-grab active:cursor-grabbing" />
   </SliderPrimitive.Root>
 ))
 CustomSlider.displayName = SliderPrimitive.Root.displayName
