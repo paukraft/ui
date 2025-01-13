@@ -121,8 +121,8 @@ export default function RadiusCalculator() {
                     isZoomedIn ? 'opacity-100' : 'opacity-0'
                   )}
                   style={{
-                    transform: `translate(${(-20 + innerRadius / 5) * -1}px, ${
-                      -20 + innerRadius / 5
+                    transform: `translate(${(20 + innerRadius / 5) * -1}px, ${
+                      20 + innerRadius / 5
                     }px)`,
                   }}
                 >
