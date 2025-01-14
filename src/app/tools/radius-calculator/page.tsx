@@ -76,7 +76,7 @@ export default function RadiusCalculator() {
           {/* Outer Box */}
           <div
             className={cn(
-              'border-4 border-gray-200 dark:border-[rgba(255,255,255,0.17)] w-8/12 max-w-[1100px] aspect-[342/215] relative min-h-[400px]'
+              'border-4 border-gray-200 dark:border-[rgba(255,255,255,0.17)] w-8/12 max-w-[800px] min-[2000px]:max-w-[1000px] aspect-[342/215] relative min-h-[400px]'
             )}
             style={{
               borderRadius: `${outerRadius}px`,
