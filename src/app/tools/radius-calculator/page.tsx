@@ -67,29 +67,32 @@ export default function RadiusCalculator() {
                 linear-gradient(to bottom, #1C1C1C 1px, transparent 0)
               `
                   : `
-                linear-gradient(to right, #F5F5F5 1px, transparent 0),
-                linear-gradient(to bottom, #F5F5F5 1px, transparent 0)
+                linear-gradient(to right, #F0F0F0 1px, transparent 0),
+                linear-gradient(to bottom, #F0F0F0 1px, transparent 0)
               `,
             }}
           />
 
           {/* Outer Box */}
           <div
-            className="border-4 border-gray-300 dark:border-[#444] w-8/12 h-3/5 relative"
+            className={cn(
+              'border-4 border-gray-200 dark:border-[rgba(255,255,255,0.17)] w-8/12 max-w-[1100px] aspect-[342/215] relative min-h-[400px]'
+            )}
             style={{
               borderRadius: `${outerRadius}px`,
               padding: `${padding}px`,
             }}
           >
             <div
-              className="absolute top-0 left-0 border-t-4 border-l-4 border-purple-500 dark:border-[#C895F8] z-10 w-[25%] aspect-square -ml-1 -mt-1"
+              className="absolute top-0 left-0 border-t-4 border-l-4 border-purple-500 dark:border-[#C288F5] z-10 w-[25%] aspect-square -ml-1 -mt-1"
               style={{
                 borderTopLeftRadius: `${outerRadius}px`,
+                minWidth: `${outerRadius}px`,
               }}
             >
               <div
                 className={cn(
-                  'text-purple-500 dark:text-[#C895F8] leading-none transition-opacity duration-300',
+                  'text-purple-500 dark:text-[#C288F5] leading-none transition-opacity duration-300',
                   isZoomedIn ? 'opacity-100' : 'opacity-0'
                 )}
                 style={{
@@ -104,20 +107,21 @@ export default function RadiusCalculator() {
 
             {/* Inner Box */}
             <div
-              className="border-4 border-gray-300 dark:border-[#444] h-full w-1/2 relative"
+              className="border-4 border-gray-200 dark:border-[rgba(255,255,255,0.17)] h-full w-1/2 relative"
               style={{
                 borderRadius: `${innerRadius}px`,
+                minWidth: `${innerRadius}px`,
               }}
             >
               <div
-                className="absolute top-0 right-0 border-t-4 border-r-4 border-orange-500 dark:border-[#FCBB95] z-10 w-[45%] aspect-square -mr-1 -mt-1 flex justify-end"
+                className="absolute top-0 right-0 border-t-4 border-r-4 border-orange-500 dark:border-[#FFAF7C] z-10 w-[45%] aspect-square -mr-1 -mt-1 flex justify-end"
                 style={{
                   borderTopRightRadius: `${innerRadius}px`,
                 }}
               >
                 <div
                   className={cn(
-                    'text-orange-500 dark:text-[#FCBB95] leading-none transition-opacity duration-300',
+                    'text-orange-500 dark:text-[#FFAF7C] leading-none transition-opacity duration-300',
                     isZoomedIn ? 'opacity-100' : 'opacity-0'
                   )}
                   style={{
@@ -145,12 +149,12 @@ export default function RadiusCalculator() {
         </div>
 
         {/* Cluster */}
-        <div className="absolute top-6 left-6 flex gap-1 text-sm">
+        <div className="absolute top-6 left-6 flex gap-1 text-sm font-medium">
           <div className="flex flex-col gap-1">
             <div className="bg-gray-100 dark:bg-[#3A3D3F] size-7 rounded-lg flex items-center justify-center">
               R1
             </div>
-            <div className="w-full text-center text-amber-700 dark:text-[#906A53]">
+            <div className="w-full text-center text-amber-700 dark:text-[#FFAF7C]">
               {innerRadius}
             </div>
           </div>
@@ -159,7 +163,7 @@ export default function RadiusCalculator() {
             <div className="bg-gray-100 dark:bg-[#3A3D3F] size-7 rounded-lg flex items-center justify-center">
               D
             </div>
-            <div className="w-full text-center text-gray-700 dark:text-[#D2D2D2]">
+            <div className="w-full text-center text-gray-700 dark:text-white">
               {padding}
             </div>
           </div>
@@ -168,23 +172,23 @@ export default function RadiusCalculator() {
             <div className="bg-gray-100 dark:bg-[#3A3D3F] size-7 rounded-lg flex items-center justify-center">
               R2
             </div>
-            <div className="w-full text-center text-purple-600 dark:text-[#A188C2]">
+            <div className="w-full text-center text-purple-600 dark:text-[#C288F5]">
               {outerRadius}
             </div>
           </div>
         </div>
 
         {/* Toggles */}
-        <div className="absolute bottom-6 left-6 flex gap-4 text-sm">
+        <div className="absolute bottom-6 left-6 flex gap-[22px] text-sm">
           <button onClick={() => setIsZoomedIn(!isZoomedIn)}>
-            {isZoomedIn ? <ZoomOut size={16} /> : <ZoomIn size={16} />}
+            {isZoomedIn ? <ZoomOut size={17} /> : <ZoomIn size={17} />}
           </button>
           <button
             onClick={() =>
               setTheme(resolvedTheme === 'dark' ? 'light' : 'dark')
             }
           >
-            {resolvedTheme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
+            {resolvedTheme === 'dark' ? <Sun size={17} /> : <Moon size={17} />}
           </button>
 
           <a
@@ -198,12 +202,12 @@ export default function RadiusCalculator() {
       </div>
 
       {/* Sheet */}
-      <div className="p-3 m-6 ml-0 bg-gray-100 dark:bg-[#222226] min-h-full w-full max-w-sm rounded-3xl flex flex-col gap-8">
-        <div className="flex p-2 flex-col gap-6 flex-1">
+      <div className="m-[26px] ml-0 bg-gray-100 dark:bg-[#222226] min-h-full w-full max-w-[360px] rounded-3xl flex flex-col gap-8 dark:text-[#E3E3E3]">
+        <div className="flex p-6 flex-col gap-9 flex-1">
           <p className="text-2xl">Configure</p>
 
-          <div className="flex flex-col gap-10">
-            <div className="flex flex-col gap-8 text-sm">
+          <div className="flex flex-col gap-8">
+            <div className="flex flex-col gap-5 text-sm">
               <div className="flex justify-between">
                 <p>Padding</p>
                 <CustomInput
@@ -211,16 +215,17 @@ export default function RadiusCalculator() {
                   onChange={(value) =>
                     calculateValues(parseInt(value), 'padding')
                   }
+                  className="-mt-1"
                 />
               </div>
               <CustomSlider
                 value={[padding]}
                 onValueChange={(value) => calculateValues(value[0], 'padding')}
-                min={0}
+                min={3}
                 max={100}
               />
             </div>
-            <div className="flex flex-col gap-8 text-sm">
+            <div className="flex flex-col gap-5 text-sm">
               <div className="flex justify-between">
                 <p>Outer Radius</p>
                 <CustomInput
@@ -228,6 +233,7 @@ export default function RadiusCalculator() {
                   onChange={(value) =>
                     calculateValues(parseInt(value), 'outer')
                   }
+                  className="-mt-1"
                 />
               </div>
               <CustomSlider
@@ -237,7 +243,7 @@ export default function RadiusCalculator() {
                 max={150}
               />
             </div>
-            <div className="flex flex-col gap-8 text-sm">
+            <div className="flex flex-col gap-5 text-sm">
               <div className="flex justify-between">
                 <p>Inner Radius</p>
                 <CustomInput
@@ -245,6 +251,7 @@ export default function RadiusCalculator() {
                   onChange={(value) =>
                     calculateValues(parseInt(value), 'inner')
                   }
+                  className="-mt-1"
                 />
               </div>
               <CustomSlider
@@ -254,10 +261,10 @@ export default function RadiusCalculator() {
                 max={150}
               />
             </div>
-            <div className="flex justify-between items-center">
+            <div className="flex justify-between">
               <div className="flex flex-col gap-2">
                 <p className="text-sm">min-radius</p>
-                <p className="text-xs text-gray-500 dark:text-gray-400">
+                <p className="text-xs opacity-50">
                   Prevents radius from going below
                 </p>
               </div>
@@ -273,14 +280,16 @@ export default function RadiusCalculator() {
                     calculateValues(newMinRadius, 'outer')
                   }
                 }}
+                className="-mt-1 h-min"
               />
             </div>
           </div>
         </div>
-        <div className="w-full space-y-1">
+
+        <div className="w-full space-y-1 p-3">
           {/* header */}
-          <div className="w-full p-3 flex justify-between items-center bg-gray-200 dark:bg-[#2D3032] rounded-t-[13px] rounded-b-sm">
-            <p>CSS</p>
+          <div className="w-full py-[14px] pl-4 pr-[11px] flex justify-between items-center bg-gray-200 dark:bg-[#2D3032] rounded-t-2xl rounded-b-sm">
+            <p className="leading-none">CSS</p>
             <CopyButton
               text={`.outer-box {
   border-radius: ${outerRadius}px;
@@ -289,12 +298,12 @@ export default function RadiusCalculator() {
 .inner-box {
   border-radius: ${innerRadius}px;
 }`}
-              className="size-4"
+              className="size-[19px]"
             />
           </div>
 
           {/* body */}
-          <div className="w-full p-3.5 bg-gray-200 dark:bg-[#2D3032] rounded-b-[13px] rounded-t-sm font-mono text-sm">
+          <div className="w-full p-4 bg-gray-200 dark:bg-[#2D3032] rounded-b-2xl rounded-t-sm font-mono text-sm">
             <div className="space-y-4">
               <div>
                 <span className="text-purple-600 dark:text-purple-400">
@@ -345,8 +354,8 @@ const CustomSlider = React.forwardRef<
     )}
     {...props}
   >
-    <SliderPrimitive.Track className="relative h-2 w-full grow overflow-hidden rounded-full bg-secondary"></SliderPrimitive.Track>
-    <SliderPrimitive.Thumb className="block h-8 w-1 bg-primary rounded-full disabled:pointer-events-none disabled:opacity-50 cursor-grab active:cursor-grabbing" />
+    <SliderPrimitive.Track className="relative h-[6px] w-full grow overflow-hidden rounded-full bg-gray-200 dark:bg-[#3A3A3A]"></SliderPrimitive.Track>
+    <SliderPrimitive.Thumb className="block h-7 w-[3px] bg-primary rounded-full disabled:pointer-events-none disabled:opacity-50 cursor-grab active:cursor-grabbing" />
   </SliderPrimitive.Root>
 ))
 CustomSlider.displayName = SliderPrimitive.Root.displayName
