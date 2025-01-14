@@ -206,15 +206,12 @@ export default function RadiusCalculator() {
             <div className="flex flex-col gap-8 text-sm">
               <div className="flex justify-between">
                 <p>Padding</p>
-                <div className="flex items-center">
-                  <TextLikeInput
-                    value={padding}
-                    onChange={(value) =>
-                      calculateValues(parseInt(value), 'padding')
-                    }
-                  />
-                  px
-                </div>
+                <CustomInput
+                  value={padding}
+                  onChange={(value) =>
+                    calculateValues(parseInt(value), 'padding')
+                  }
+                />
               </div>
               <CustomSlider
                 value={[padding]}
@@ -226,15 +223,12 @@ export default function RadiusCalculator() {
             <div className="flex flex-col gap-8 text-sm">
               <div className="flex justify-between">
                 <p>Outer Radius</p>
-                <div className="flex items-center">
-                  <TextLikeInput
-                    value={outerRadius}
-                    onChange={(value) =>
-                      calculateValues(parseInt(value), 'outer')
-                    }
-                  />
-                  px
-                </div>
+                <CustomInput
+                  value={outerRadius}
+                  onChange={(value) =>
+                    calculateValues(parseInt(value), 'outer')
+                  }
+                />
               </div>
               <CustomSlider
                 value={[outerRadius]}
@@ -246,15 +240,12 @@ export default function RadiusCalculator() {
             <div className="flex flex-col gap-8 text-sm">
               <div className="flex justify-between">
                 <p>Inner Radius</p>
-                <div className="flex items-center">
-                  <TextLikeInput
-                    value={innerRadius}
-                    onChange={(value) =>
-                      calculateValues(parseInt(value), 'inner')
-                    }
-                  />
-                  px
-                </div>
+                <CustomInput
+                  value={innerRadius}
+                  onChange={(value) =>
+                    calculateValues(parseInt(value), 'inner')
+                  }
+                />
               </div>
               <CustomSlider
                 value={[innerRadius]}
@@ -270,22 +261,19 @@ export default function RadiusCalculator() {
                   Prevents radius from going below
                 </p>
               </div>
-              <div className="flex items-center bg-white dark:bg-[#2E2E31] rounded-md px-2 py-1 text-sm">
-                <TextLikeInput
-                  value={minRadius}
-                  onChange={(value) => {
-                    const newMinRadius = parseInt(value)
-                    setMinRadius(newMinRadius)
-                    if (innerRadius < newMinRadius) {
-                      calculateValues(newMinRadius, 'inner')
-                    }
-                    if (outerRadius < newMinRadius) {
-                      calculateValues(newMinRadius, 'outer')
-                    }
-                  }}
-                />
-                <span>px</span>
-              </div>
+              <CustomInput
+                value={minRadius}
+                onChange={(value) => {
+                  const newMinRadius = parseInt(value)
+                  setMinRadius(newMinRadius)
+                  if (innerRadius < newMinRadius) {
+                    calculateValues(newMinRadius, 'inner')
+                  }
+                  if (outerRadius < newMinRadius) {
+                    calculateValues(newMinRadius, 'outer')
+                  }
+                }}
+              />
             </div>
           </div>
         </div>
@@ -388,3 +376,27 @@ const TextLikeInput = React.forwardRef<
   )
 })
 TextLikeInput.displayName = 'TextLikeInput'
+
+const CustomInput = ({
+  value,
+  onChange,
+  className,
+  suffix = 'px',
+}: {
+  value: number | string
+  onChange: (value: string) => void
+  className?: string
+  suffix?: string
+}) => {
+  return (
+    <div
+      className={cn(
+        'flex items-center bg-white dark:bg-[#2E2E31] rounded-md px-2 py-1 text-sm',
+        className
+      )}
+    >
+      <TextLikeInput value={value} onChange={onChange} />
+      <span>{suffix}</span>
+    </div>
+  )
+}
