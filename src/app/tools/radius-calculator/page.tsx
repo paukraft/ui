@@ -26,24 +26,31 @@ export default function RadiusCalculator() {
       case 'padding':
         // When padding changes, update inner radius based on outer radius
         setPadding(value)
-        setInnerRadius(Math.max(minRadius, outerRadius - value))
+        const newInnerFromPadding = outerRadius - value
+        if (newInnerFromPadding >= minRadius) {
+          setInnerRadius(newInnerFromPadding)
+        }
         break
       case 'outer':
-        // When outer radius changes, update inner radius
-        setOuterRadius(Math.max(value, padding + minRadius))
-        setInnerRadius(Math.max(minRadius, value - padding))
+        // When outer radius changes, update inner radius if possible
+        const safeOuterRadius = Math.max(value, minRadius)
+        setOuterRadius(safeOuterRadius)
+        const newInnerFromOuter = safeOuterRadius - padding
+        if (newInnerFromOuter >= minRadius) {
+          setInnerRadius(newInnerFromOuter)
+        }
         break
       case 'inner':
-        // When inner radius changes, update outer radius
-        const newInnerRadius = Math.max(minRadius, value)
-        setInnerRadius(newInnerRadius)
-        setOuterRadius(newInnerRadius + padding)
+        // When inner radius changes, update outer radius if possible
+        const safeInnerRadius = Math.max(value, minRadius)
+        setInnerRadius(safeInnerRadius)
+        setOuterRadius(Math.max(safeInnerRadius + padding, minRadius))
         break
     }
   }
 
   return (
-    <div className="bg-white dark:bg-[#121212] w-full min-h-full flex-1 flex">
+    <div className="bg-white dark:bg-[#121212] w-full min-h-full flex-1 flex font-sans">
       <div className="flex-1 relative overflow-hidden">
         {/* Preview */}
         <div
@@ -149,7 +156,7 @@ export default function RadiusCalculator() {
         </div>
 
         {/* Cluster */}
-        <div className="absolute top-6 left-6 flex gap-1 text-sm font-medium">
+        <div className="absolute top-6 left-6 flex gap-1 text-sm">
           <div className="flex flex-col gap-1">
             <div className="bg-gray-100 dark:bg-[#3A3D3F] size-7 rounded-lg flex items-center justify-center">
               R1
