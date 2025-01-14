@@ -206,19 +206,35 @@ export default function RadiusCalculator() {
             <div className="flex flex-col gap-8 text-sm">
               <div className="flex justify-between">
                 <p>Padding</p>
-                <p>{padding}px</p>
+                <div className="flex items-center">
+                  <TextLikeInput
+                    value={padding}
+                    onChange={(value) =>
+                      calculateValues(parseInt(value), 'padding')
+                    }
+                  />
+                  px
+                </div>
               </div>
               <CustomSlider
                 value={[padding]}
                 onValueChange={(value) => calculateValues(value[0], 'padding')}
-                min={3}
+                min={0}
                 max={100}
               />
             </div>
             <div className="flex flex-col gap-8 text-sm">
               <div className="flex justify-between">
                 <p>Outer Radius</p>
-                <p>{outerRadius}px</p>
+                <div className="flex items-center">
+                  <TextLikeInput
+                    value={outerRadius}
+                    onChange={(value) =>
+                      calculateValues(parseInt(value), 'outer')
+                    }
+                  />
+                  px
+                </div>
               </div>
               <CustomSlider
                 value={[outerRadius]}
@@ -230,7 +246,15 @@ export default function RadiusCalculator() {
             <div className="flex flex-col gap-8 text-sm">
               <div className="flex justify-between">
                 <p>Inner Radius</p>
-                <p>{innerRadius}px</p>
+                <div className="flex items-center">
+                  <TextLikeInput
+                    value={innerRadius}
+                    onChange={(value) =>
+                      calculateValues(parseInt(value), 'inner')
+                    }
+                  />
+                  px
+                </div>
               </div>
               <CustomSlider
                 value={[innerRadius]}
@@ -247,24 +271,19 @@ export default function RadiusCalculator() {
                 </p>
               </div>
               <div className="flex items-center bg-white dark:bg-[#2E2E31] rounded-md px-2 py-1 text-sm">
-                <div className="relative">
-                  <p className="opacity-0 text-end">{minRadius}</p>
-                  <input
-                    type="number"
-                    value={minRadius}
-                    onChange={(e) => {
-                      const newMinRadius = parseInt(e.target.value)
-                      setMinRadius(newMinRadius)
-                      if (innerRadius < newMinRadius) {
-                        calculateValues(newMinRadius, 'inner')
-                      }
-                      if (outerRadius < newMinRadius) {
-                        calculateValues(newMinRadius, 'outer')
-                      }
-                    }}
-                    className="absolute inset-0 bg-transparent outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none text-end w-full"
-                  />
-                </div>
+                <TextLikeInput
+                  value={minRadius}
+                  onChange={(value) => {
+                    const newMinRadius = parseInt(value)
+                    setMinRadius(newMinRadius)
+                    if (innerRadius < newMinRadius) {
+                      calculateValues(newMinRadius, 'inner')
+                    }
+                    if (outerRadius < newMinRadius) {
+                      calculateValues(newMinRadius, 'outer')
+                    }
+                  }}
+                />
                 <span>px</span>
               </div>
             </div>
@@ -343,3 +362,29 @@ const CustomSlider = React.forwardRef<
   </SliderPrimitive.Root>
 ))
 CustomSlider.displayName = SliderPrimitive.Root.displayName
+
+const TextLikeInput = React.forwardRef<
+  HTMLInputElement,
+  {
+    value: number | string
+    onChange: (value: string) => void
+    className?: string
+  }
+>(({ value, onChange, className }, ref) => {
+  return (
+    <div className="relative">
+      <p className="opacity-0 text-end">{value}</p>
+      <input
+        ref={ref}
+        type="number"
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        className={cn(
+          'absolute inset-0 bg-transparent outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none text-end w-full',
+          className
+        )}
+      />
+    </div>
+  )
+})
+TextLikeInput.displayName = 'TextLikeInput'
