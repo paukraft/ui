@@ -1,5 +1,6 @@
 'use client'
 
+import { tools } from '@/app/tools/page'
 import { registryCollections, registryComponents } from '@/components/registry'
 import {
   CommandDialog,
@@ -56,7 +57,7 @@ const CommandMenu = () => {
         </kbd>
       </button>
       <CommandDialog open={open} onOpenChange={setOpen}>
-        <CommandInput placeholder="Search components..." />
+        <CommandInput placeholder="Search components and tools..." />
         <CommandList>
           <CommandEmpty>No results found.</CommandEmpty>
           {componentsByCollection.map((collection) => (
@@ -74,6 +75,19 @@ const CommandMenu = () => {
               ))}
             </CommandGroup>
           ))}
+          <CommandGroup heading="Tools">
+            {tools.map((tool) => (
+              <CommandItem
+                key={tool.path}
+                onSelect={() => {
+                  router.push(`/tools/${tool.path}`)
+                  setOpen(false)
+                }}
+              >
+                {tool.name}
+              </CommandItem>
+            ))}
+          </CommandGroup>
         </CommandList>
       </CommandDialog>
     </>

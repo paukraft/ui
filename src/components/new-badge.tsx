@@ -1,12 +1,7 @@
 import { differenceInWeeks } from 'date-fns'
-import { Component } from './registry'
 import { Badge } from './ui/badge'
 
-export const NewComponentBadge = ({
-  component: { createdAt },
-}: {
-  component: Component
-}) => {
+export const NewBadge = ({ createdAt }: { createdAt?: string }) => {
   if (!createdAt) return null
 
   const isNew = differenceInWeeks(new Date(), new Date(createdAt)) <= 2
