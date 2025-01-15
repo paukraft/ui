@@ -1,36 +1,8 @@
-import RadiusCalculatorThumbnail from '@/../public/thumbnails/radius-calculator.png'
 import { NewBadge } from '@/components/new-badge'
 import { ArrowUpRight } from 'lucide-react'
-import Image, { StaticImageData } from 'next/image'
+import Image from 'next/image'
 import Link from 'next/link'
-
-export const tools: {
-  name: string
-  description: string
-  path: string
-  createdAt?: string
-  updatedAt?: string
-  thumbnail?: StaticImageData
-  links?: {
-    label: string
-    href: string
-  }[]
-}[] = [
-  {
-    name: 'Radius Calculator',
-    description:
-      'Calculate and visualize the perfect corner radius for your design.',
-    path: 'radius-calculator',
-    createdAt: '2024-01-13',
-    thumbnail: RadiusCalculatorThumbnail,
-    links: [
-      {
-        label: 'original from @drudiedo',
-        href: 'https://x.com/drudiedo/status/1878790137997627661',
-      },
-    ],
-  },
-] as const
+import { tools } from './tools'
 
 const ToolsPage = () => {
   return (

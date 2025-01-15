@@ -1,5 +1,5 @@
 import { Metadata } from 'next'
-import { tools } from '../page'
+import { tools } from '../tools'
 import { RadiusCalculator } from './radius-calculator'
 
 const tool = tools.find((tool) => tool.path === 'radius-calculator')

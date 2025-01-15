@@ -1,6 +1,6 @@
 'use client'
 
-import { tools } from '@/app/tools/page'
+import { tools } from '@/app/tools/tools'
 import { registryCollections, registryComponents } from '@/components/registry'
 import {
   CommandDialog,
