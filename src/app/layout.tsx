@@ -41,7 +41,7 @@ export default function RootLayout({
             <Navbar />
             {children}
             <Footer />
-            <TrackiTrack />
+            {process.env.NODE_ENV === 'production' && <TrackiTrack />}
           </div>
         </ThemeProvider>
       </body>
