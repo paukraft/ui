@@ -24,6 +24,12 @@ import { ExternalLink, Info } from 'lucide-react'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 
+export async function generateStaticParams() {
+  return registryComponents.map((component) => ({
+    slug: component.path.toLowerCase().replace(/\s+/g, '-'),
+  }))
+}
+
 export async function generateMetadata({
   params,
 }: {
@@ -265,7 +271,7 @@ export default async function ComponentPage({
                   <span>Type: {prop.type}</span>
                   <span>Required: {prop.required ? 'Yes' : 'No'}</span>
                   {prop.defaultValue && (
-                    <span>Default: {prop.defaultValue.toString()}</span>
+                    <span>Default: {String(prop.defaultValue)}</span>
                   )}
                 </div>
               </div>
