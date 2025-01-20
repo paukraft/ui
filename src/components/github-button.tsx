@@ -6,6 +6,10 @@ import { Button } from './ui/button'
 import { TextShimmer } from './ui/text-shimmer'
 
 const formatStarCount = (count: number): string => {
+  if (typeof count !== 'number') {
+    return ''
+  }
+
   if (count >= 1000000) {
     return `${(count / 1000000).toFixed(1)}M`
   }
@@ -19,10 +23,13 @@ export default function GithubButton() {
   const [stars, setStars] = useState<number | null>(null)
 
   useEffect(() => {
-    fetch('https://api.github.com/repos/paukraft/ui')
-      .then((response) => response.json())
-      .then((data) => setStars(data.stargazers_count))
-      .catch((error) => console.error('Error fetching GitHub stars:', error))
+    // Only run on client-side
+    if (typeof window !== 'undefined') {
+      fetch('https://api.github.com/repos/paukraft/ui')
+        .then((response) => response.json())
+        .then((data) => setStars(data.stargazers_count))
+        .catch((error) => console.error('Error fetching GitHub stars:', error))
+    }
   }, [])
 
   return (
