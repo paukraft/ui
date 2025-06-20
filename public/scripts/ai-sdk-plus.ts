@@ -184,47 +184,7 @@ const tryParseJson = ({
   } catch (e) {
     console.log('All JSON parsing attempts failed:', e)
 
-    // Last resort: try to manually extract the JSON using regex
-    try {
-      console.log('Attempting to extract partial JSON data via regex')
-      const cleanedText = cleanJsonFromMarkdown({ text })
-
-      // Create a minimum valid JSON object with whatever we can extract
-      const minimalJson: Record<string, any> = {}
-
-      // Try to extract common fields using regex
-      const legalNameMatch = /"legalName"\s*:\s*"([^"]+)"/
-      const addressMatch = /"addressString"\s*:\s*"([^"]+)"/
-      const descriptionMatch = /"description"\s*:\s*"([^"]+)"/
-
-      const legalName = cleanedText.match(legalNameMatch)?.[1]
-      const address = cleanedText.match(addressMatch)?.[1]
-      const description = cleanedText.match(descriptionMatch)?.[1]
-
-      if (legalName) minimalJson.legalName = legalName
-      if (address) minimalJson.addressString = address
-      if (description) minimalJson.description = description
-
-      // Add other required fields with empty values to satisfy schema
-      minimalJson.theirWebsites = minimalJson.theirWebsites || []
-      minimalJson.contactPersons = minimalJson.contactPersons || []
-      minimalJson.sourceLinks = minimalJson.sourceLinks || []
-      minimalJson.searchEngines = minimalJson.searchEngines || []
-
-      console.log(
-        'Constructed minimal JSON object:',
-        JSON.stringify(minimalJson).substring(0, 100) + '...'
-      )
-
-      if (Object.keys(minimalJson).length > 0) {
-        return { success: true, result: minimalJson }
-      }
-
-      return { success: false, result: null }
-    } catch (regexError) {
-      console.log('Regex extraction failed:', regexError)
-      return { success: false, result: null }
-    }
+    return { success: false, result: null }
   }
 }
 
