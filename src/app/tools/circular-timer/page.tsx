@@ -1,3 +1,4 @@
+import Clapper from '@/components/clapper'
 import { Metadata } from 'next'
 import { tools } from '../tools'
 import { CircularTimer } from './circular-timer'
@@ -20,5 +21,10 @@ export const metadata: Metadata = {
 }
 
 export default function Page() {
-  return <CircularTimer />
+  return (
+    <>
+      <CircularTimer />
+      <Clapper clapperId="circular-timer" />
+    </>
+  )
 }

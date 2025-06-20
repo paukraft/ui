@@ -1,3 +1,4 @@
+import Clapper from '@/components/clapper'
 import { CopyDropdown } from '@/components/copy-dropdown'
 import { registryCollections, registryComponents } from '@/components/registry'
 import { CustomPropsDemo } from '@/components/registry/custom-props-demo'
@@ -328,6 +329,7 @@ export default async function ComponentPage({
           </div>
         )}
       </div>
+      <Clapper clapperId={`component-${component.path}`} />
     </section>
   )
 }

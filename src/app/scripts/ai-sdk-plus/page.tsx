@@ -1,3 +1,4 @@
+import Clapper from '@/components/clapper'
 import { Expander } from '@/components/registry/expander/component'
 import { Button } from '@/components/ui/button'
 import { CodeBlock } from '@/components/ui/code-block'
@@ -562,6 +563,7 @@ console.log(restaurantsStorage)`}
           </section>
         </article>
       </main>
+      <Clapper clapperId="ai-sdk-plus" />
     </div>
   )
 }

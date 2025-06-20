@@ -1,3 +1,4 @@
+import Clapper from '@/components/clapper'
 import { Metadata } from 'next'
 import { tools } from '../tools'
 import { RadiusCalculator } from './radius-calculator'
@@ -20,5 +21,11 @@ export const metadata: Metadata = {
 }
 
 export default function Page() {
-  return <RadiusCalculator />
+  return (
+    <RadiusCalculator
+      ClapperComponent={
+        <Clapper clapperId="radius-calculator" fixedDefaultPosi={false} />
+      }
+    />
+  )
 }

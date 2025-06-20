@@ -8,7 +8,11 @@ import { useTheme } from 'next-themes'
 import * as React from 'react'
 import { useState } from 'react'
 
-export const RadiusCalculator = () => {
+export const RadiusCalculator = ({
+  ClapperComponent,
+}: {
+  ClapperComponent?: React.ReactNode
+}) => {
   const { setTheme, resolvedTheme } = useTheme()
 
   const [padding, setPadding] = useState(36)
@@ -186,7 +190,8 @@ export const RadiusCalculator = () => {
         </div>
 
         {/* Toggles */}
-        <div className="absolute bottom-6 left-6 flex gap-[22px] text-sm">
+        <div className="absolute bottom-6 left-6 flex gap-[22px] text-sm items-center">
+          {ClapperComponent}
           <button onClick={() => setIsZoomedIn(!isZoomedIn)}>
             {isZoomedIn ? <ZoomOut size={17} /> : <ZoomIn size={17} />}
           </button>
