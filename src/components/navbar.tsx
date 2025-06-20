@@ -26,6 +26,12 @@ const Navbar = () => {
           >
             Tools
           </Link>
+          <Link
+            href="/scripts/ai-sdk-plus"
+            className="hover:text-primary transition-colors hidden md:block"
+          >
+            AI SDK Plus
+          </Link>
         </div>
         <div className="flex-1 flex items-center justify-end gap-4">
           <div className="hidden md:flex items-center gap-4">

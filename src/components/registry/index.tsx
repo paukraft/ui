@@ -10,6 +10,8 @@ import { ComparisonSlider } from './comparison-slider/component'
 import ComparisonSliderDemo from './comparison-slider/demo'
 import { CopyButton } from './copy-button/component'
 import { CopyButtonDemo } from './copy-button/demo'
+import { Expander } from './expander/component'
+import ExpanderDemo from './expander/demo'
 import { SeededAvatar } from './seeded-avatar/component'
 import { SeededAvatarDemo } from './seeded-avatar/demo'
 import { Skeleton } from './skeleton-plus/component'
@@ -325,6 +327,39 @@ export const registryComponents: {
         href: 'https://avvvatars.com/',
       },
     ],
+  },
+  {
+    name: 'Expander',
+    description:
+      'A component that shows content with a maximum height and allows users to expand to see the full content with smooth animations.',
+    component: Expander,
+    demo: ExpanderDemo,
+    customProps: {
+      maxHeight: {
+        description:
+          'The maximum height in pixels before content gets truncated.',
+        type: 'number',
+        required: false,
+        defaultValue: 200,
+      },
+      showAllText: {
+        description: 'Text shown on the expand button.',
+        type: 'string',
+        required: false,
+        defaultValue: 'Show All',
+      },
+      showLessText: {
+        description: 'Text shown on the collapse button.',
+        type: 'string',
+        required: false,
+        defaultValue: 'Show Less',
+      },
+    },
+    path: 'expander',
+    dependencies: ['motion'],
+    collections: ['paukraftui'],
+    clientComponent: true,
+    createdAt: '2025-06-20',
   },
 ]
 
