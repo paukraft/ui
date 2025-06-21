@@ -7,12 +7,14 @@ export const Expander = ({
   children,
   maxHeight = 200,
   className,
+  overlayClassName,
   showAllText = 'Show All',
   showLessText = 'Show Less',
 }: {
   children: React.ReactNode
   maxHeight?: number
   className?: string
+  overlayClassName?: string
   showAllText?: string
   showLessText?: string
 }) => {
@@ -24,7 +26,7 @@ export const Expander = ({
 
   return (
     <div
-      className={cn('relative', className)}
+      className={cn('relative rounded-lg overflow-hidden', className)}
       data-state={isExpanded ? 'open' : 'closed'}
     >
       <div
@@ -38,7 +40,12 @@ export const Expander = ({
       </div>
 
       {!isExpanded && (
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent to-background rounded-md flex items-end justify-center pointer-events-none">
+        <div
+          className={cn(
+            'absolute inset-0 bg-gradient-to-b from-transparent to-background flex items-end justify-center pointer-events-none',
+            overlayClassName
+          )}
+        >
           <button
             onClick={toggleExpanded}
             className="px-3 py-1.5 rounded-full bg-muted/80 backdrop-blur-sm text-xs font-medium text-foreground hover:bg-muted transition-colors pointer-events-auto"

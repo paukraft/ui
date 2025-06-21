@@ -42,12 +42,6 @@ export default async function Page() {
               Key Features
             </a>
             <a
-              href="#tool-calling"
-              className="block text-muted-foreground hover:text-foreground transition-colors pl-3"
-            >
-              Tool Calling
-            </a>
-            <a
               href="#error-recovery"
               className="block text-muted-foreground hover:text-foreground transition-colors pl-3"
             >
@@ -58,6 +52,12 @@ export default async function Page() {
               className="block text-muted-foreground hover:text-foreground transition-colors pl-3"
             >
               Conversational Continuity - askFollowUp
+            </a>
+            <a
+              href="#tool-calling"
+              className="block text-muted-foreground hover:text-foreground transition-colors pl-3"
+            >
+              Tool Calling
             </a>
             <a
               href="#installation"
@@ -149,18 +149,6 @@ export default async function Page() {
             </h3> */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 lg:gap-6">
               <div className="flex items-start gap-3 sm:gap-4">
-                <div className="size-2.5 sm:size-3 rounded-full bg-green-500 mt-2 shrink-0" />
-                <div>
-                  <h4 className="font-semibold text-sm sm:text-base">
-                    Tool Calling + Structured Output
-                  </h4>
-                  <p className="text-xs sm:text-sm text-muted-foreground mt-1">
-                    Use tools while maintaining structured responses
-                  </p>
-                </div>
-              </div>
-              <div className="flex items-start gap-3 sm:gap-4 relative">
-                <div className="absolute -left-4 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-border to-transparent transform -rotate-12 hidden lg:block" />
                 <div className="size-2.5 sm:size-3 rounded-full bg-blue-500 mt-2 shrink-0" />
                 <div>
                   <h4 className="font-semibold text-sm sm:text-base">
@@ -171,7 +159,7 @@ export default async function Page() {
                   </p>
                 </div>
               </div>
-              <div className="flex items-start gap-3 sm:gap-4 relative sm:col-span-2 lg:col-span-1">
+              <div className="flex items-start gap-3 sm:gap-4 relative">
                 <div className="absolute -left-4 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-border to-transparent transform -rotate-12 hidden lg:block" />
                 <div className="size-2.5 sm:size-3 rounded-full bg-purple-500 mt-2 shrink-0" />
                 <div>
@@ -180,6 +168,18 @@ export default async function Page() {
                   </h4>
                   <p className="text-xs sm:text-sm text-muted-foreground mt-1">
                     Follow-up conversations with context memory
+                  </p>
+                </div>
+              </div>
+              <div className="flex items-start gap-3 sm:gap-4 relative sm:col-span-2 lg:col-span-1">
+                <div className="absolute -left-4 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-border to-transparent transform -rotate-12 hidden lg:block" />
+                <div className="size-2.5 sm:size-3 rounded-full bg-green-500 mt-2 shrink-0" />
+                <div>
+                  <h4 className="font-semibold text-sm sm:text-base">
+                    Tool Calling + Structured Output
+                  </h4>
+                  <p className="text-xs sm:text-sm text-muted-foreground mt-1">
+                    Use tools while maintaining structured responses
                   </p>
                 </div>
               </div>
@@ -193,40 +193,6 @@ export default async function Page() {
             <h2 className="text-3xl font-bold mb-8">Key Features</h2>
 
             <div className="space-y-12">
-              {/* Tool Calling Feature */}
-              <div id="tool-calling" className="space-y-4">
-                <h3 className="text-2xl font-semibold">
-                  Tool Calling with Structured Output
-                </h3>
-                <p className="text-lg text-muted-foreground leading-relaxed">
-                  Unlike the standard generateObject, this supports tool calling
-                  via the <InlineCode>maxSteps</InlineCode> parameter while
-                  maintaining structured output. Essential for building
-                  multi-step AI agents that need both tool access and reliable
-                  data structures.
-                </p>
-                <div className="bg-muted/30 rounded-xl p-1">
-                  <CodeBlock
-                    code={`const { object } = await generateObjectPlus({
-  model: openai('gpt-4o-mini'),
-  schema: z.object({
-    temperature: z.number(),
-    condition: z.string(),
-  }),
-  maxSteps: 5, // Enable tool calling
-  tools: {
-    getWeather: {
-      description: 'Get current weather',
-      parameters: z.object({ city: z.string() }),
-      execute: async ({ city }) => ({ temp: 22, condition: 'sunny' })
-    }
-  },
-  prompt: 'What is the weather in Paris?'
-})`}
-                  />
-                </div>
-              </div>
-
               {/* Error Recovery Feature */}
               <div id="error-recovery" className="space-y-4">
                 <h3 className="text-2xl font-semibold">
@@ -265,7 +231,7 @@ const { object, sessionMessages } = await generateObjectPlus({
   }),
 })
 
-// Output shows automatic retry:
+// ⬇️ Here is the message history to show you how self healing fixed the validation issues automatically.
 console.log(JSON.stringify(sessionMessages, null, 2))
 // [
 //   {
@@ -369,6 +335,40 @@ const { object: technicalDetails } = await askFollowUp({
 `}
                     />
                   </Expander>
+                </div>
+              </div>
+
+              {/* Tool Calling Feature */}
+              <div id="tool-calling" className="space-y-4">
+                <h3 className="text-2xl font-semibold">
+                  Tool Calling with Structured Output
+                </h3>
+                <p className="text-lg text-muted-foreground leading-relaxed">
+                  Unlike the standard generateObject, this supports tool calling
+                  via the <InlineCode>maxSteps</InlineCode> parameter while
+                  maintaining structured output. Essential for building
+                  multi-step AI agents that need both tool access and reliable
+                  data structures.
+                </p>
+                <div className="bg-muted/30 rounded-xl p-1">
+                  <CodeBlock
+                    code={`const { object } = await generateObjectPlus({
+  model: openai('gpt-4o-mini'),
+  schema: z.object({
+    temperature: z.number(),
+    condition: z.string(),
+  }),
+  maxSteps: 5, // Enable tool calling
+  tools: {
+    getWeather: {
+      description: 'Get current weather',
+      parameters: z.object({ city: z.string() }),
+      execute: async ({ city }) => ({ temp: 22, condition: 'sunny' })
+    }
+  },
+  prompt: 'What is the weather in Paris?'
+})`}
+                  />
                 </div>
               </div>
             </div>
