@@ -279,60 +279,48 @@ console.log(object)
                 <div className="bg-muted/30 rounded-xl p-1">
                   <Expander maxHeight={400}>
                     <CodeBlock
-                      code={`const { object, askFollowUp } = await generateObjectPlus({
-  model: openai('gpt-4o-mini'),
-  schema: z.object({
-    userRequirement: z.string(),
-    needsMoreDetails: z.boolean(),
-    suggestedQuestions: z.array(z.string())
-  }),
-  prompt: 'I need help building a website'
-})
-
-// First response might indicate needing more details
-console.log(object)
-// {
-//   userRequirement: "Website development assistance requested",
-//   needsMoreDetails: true,
-//   suggestedQuestions: [
-//     "What type of website do you want to build?",
-//     "What features do you need?",
-//     "Do you have a design in mind?"
-//   ]
-// }
-
-// Follow up maintains conversation context
-const { object: detailedPlan } = await askFollowUp({
-  prompt: "It's an e-commerce site for selling handmade jewelry",
-  schema: z.object({
-    recommendedTech: z.array(z.string()),
-    estimatedTimeframe: z.string(),
-    keyFeatures: z.array(z.string())
+                      code={`const handleConversation = async ({
+  conversationId,
+  emailHistory,
+}: {
+  conversationId: string
+  emailHistory: string
+}) => {
+  const {
+    object: { followUpEmailNeeded },
+    askFollowUp,
+  } = await generateObjectPlus({
+    model: openai('gpt-4.1-mini'),
+    prompt: \`Here is our email history: \${emailHistory}
+    
+Is any of our questions unanswered and do we need to send them a follow up email?\`,
+    schema: z.object({
+      followUpEmailNeeded: z.boolean(),
+      unansweredQuestions: z.array(z.string()),
+    }),
   })
-})
 
-console.log(detailedPlan)
-// {
-//   recommendedTech: ["Next.js", "Stripe", "PostgreSQL", "AWS S3"],
-//   estimatedTimeframe: "2-3 months",
-//   keyFeatures: [
-//     "Product catalog",
-//     "Shopping cart",
-//     "Secure payments",
-//     "Admin dashboard"
-//   ]
-// }
+  // If the ai doesn't think we need to send a follow up email, we can
+  // mark the conversation as done and don't even bother generating a email.
+  if (!followUpEmailNeeded) {
+    await markConversationAsDone({ conversationId })
+    return
+  }
 
-// Can continue the conversation with more specifics
-const { object: technicalDetails } = await askFollowUp({
-  prompt: "Tell me more about the product catalog implementation",
-  schema: z.object({
-    databaseSchema: z.string(),
-    apiEndpoints: z.array(z.string()),
-    performanceConsiderations: z.array(z.string())
+  // This sends a new message in the same chat/thread so the ai still 
+  // has the email history and what it thought are the unanswered questions
+  const {
+    object: { subject, emailBody },
+  } = await askFollowUp({
+    prompt: 'Ok then pls generate a email that i can send them',
+    schema: z.object({
+      subject: z.string(),
+      emailBody: z.string(),
+    }),
   })
-})
-`}
+
+  await sendFollowUpEmail({ subject, emailBody, conversationId })
+}`}
                     />
                   </Expander>
                 </div>
